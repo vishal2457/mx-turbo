@@ -1,0 +1,194 @@
+<h3 class="font-bold text-3xl">Dashboard</h3>
+<div class="grid grid-cols-1 md:grid-cols-4 gap-4 py-4">
+  <div mxCard class="bg-emerald-200 dark:bg-emerald-900">
+    <div
+      mxCardHeader
+      class="flex-row items-center justify-between space-y-1 py-4 px-6"
+    >
+      <div
+        mxCardtitle
+        class="text-emerald-800 dark:text-emerald-300 tracking-wide"
+      >
+        Revenue This Month
+      </div>
+      <!-- <mx-select
+      [items]="MONTHS"
+      [control]="timefilter"
+      /> -->
+    </div>
+    <div mxCardContent>
+      <span class="flex">
+        <display-currency [amount]="revenueThisMonth" />
+      </span>
+    </div>
+    <div
+      routerLink="/member-plan/list"
+      class="flex gap-1 items-center justify-between cursor-pointer p-1 px-6 border-t border-emerald-500"
+      mxCardFooter
+    >
+      <p class="text-xs text-emerald-700/90 dark:text-emerald-300/90">
+        View List
+      </p>
+      <mx-icon icon="step-forward" class="mt-1" />
+    </div>
+  </div>
+  <div mxCard class="bg-blue-200 dark:bg-blue-900">
+    <div
+      mxCardHeader
+      class="flex-row items-center justify-between space-y-1 py-4 px-6"
+    >
+      <div mxCardtitle class="text-blue-800 dark:text-blue-300 tracking-wide">
+        New Members This Month
+      </div>
+    </div>
+    <div mxCardContent>
+      <p class="text-2xl font-bold">
+        {{ newCustomerByMonthCount }}
+      </p>
+    </div>
+    <div
+      routerLink="/member/list"
+      class="flex gap-1 items-center justify-between cursor-pointer p-1 px-6 border-t border-blue-500"
+      mxCardFooter
+    >
+      <p class="text-xs text-blue-700/90 dark:text-blue-300/90">View List</p>
+      <mx-icon icon="step-forward" class="mt-1" />
+    </div>
+  </div>
+  <div mxCard class="bg-rose-200 dark:bg-rose-900">
+    <div
+      mxCardHeader
+      class="flex-row items-center justify-between space-y-1 py-4 px-6"
+    >
+      <div mxCardtitle class="text-rose-800 dark:text-rose-300 tracking-wide">
+        Open Enquiries
+      </div>
+    </div>
+    <div mxCardContent>
+      <p class="text-2xl font-bold">{{ openEnquiries }}</p>
+    </div>
+    <div
+      routerLink="/enquiry/list"
+      class="flex gap-1 items-center justify-between cursor-pointer p-1 px-6 border-t border-rose-500"
+      mxCardFooter
+    >
+      <p class="text-xs text-rose-700/90 dark:text-rose-300/90">View List</p>
+      <mx-icon icon="step-forward" class="mt-1" />
+    </div>
+  </div>
+  <div mxCard class="bg-purple-200 dark:bg-purple-900">
+    <div
+      mxCardHeader
+      class="flex-row items-center justify-between space-y-1 py-4 px-6"
+    >
+      <div
+        mxCardtitle
+        class="text-purple-800 dark:text-purple-300 tracking-wide"
+      >
+        Total Active Members
+      </div>
+    </div>
+    <div mxCardContent>
+      <p class="text-2xl font-bold">{{ memberCount }}</p>
+    </div>
+    <div
+      routerLink="/member/list"
+      class="flex gap-1 items-center justify-between cursor-pointer p-1 px-6 border-t border-purple-500"
+      mxCardFooter
+    >
+      <p class="text-xs text-purple-700/90 dark:text-purple-300/90">
+        View List
+      </p>
+      <mx-icon icon="step-forward" class="mt-1" />
+    </div>
+  </div>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+  <div mxCard>
+    <div
+      mxCardHeader
+      class="flex-row items-center justify-between space-y-1 py-4 px-6"
+    >
+      <div mxCardtitle>Last Seven Months Revenue</div>
+      <div mxCardtitle>
+        Total
+        <display-currency
+          [amount]="totalRevenueForLastSevenMonths"
+          class="text-sm"
+        />
+      </div>
+      <!-- <mx-icon icon="list_alt" size="lg" /> -->
+    </div>
+    <div mxCardContent class="p-0">
+      <div id="bar-chart" class="w-full h-[350px]"></div>
+    </div>
+  </div>
+  <div mxCard>
+    <div
+      mxCardHeader
+      class="flex-row items-center justify-between space-y-1 py-4 px-6"
+    >
+      <div mxCardtitle>
+        Members at risk
+        <p class="text-sm text-gray-400 pt-2">No workouts logged from last 7 days</p>
+
+      </div>
+    </div>
+    <div mxCardContent class="grid grid-cols-1 md:grid-cols-3 gap-3">
+      @for (item of membersAtRisk; track item.member.id) {
+        <div mxCard>
+          <div
+            mxCardHeader class="p-3">
+            <div mxCardtitle>
+              {{item?.member?.name}}
+            </div>
+            <!-- <mx-icon icon="list_alt" size="lg" /> -->
+          </div>
+          <div mxCardContent class="px-3">
+            <div class="flex gap-2 items-center">
+              <mx-icon icon="mobile"  />
+              <p class="text-sm">{{item?.member?.mobile}}</p>
+            </div>
+            <div class="flex gap-2 items-center">
+              <mx-icon icon="mail"  />
+              <p class="text-sm">{{item?.member?.email}}</p>
+            </div>
+          </div>
+        </div>
+      }
+    </div>
+    @if (!membersAtRisk.length) {
+      <div class="flex flex-col gap-5 justify-center items-center min-h-40">
+        <p>No members at risk</p>
+      </div>
+    }
+
+  </div>
+</div>
+
+<mx-grid-shell
+  gridTitle="Open Enquiries"
+  apiURL="/enquiry/list"
+  [defaultFilters]="{ status: 'eq|Open|t' }"
+>
+  <!-- columns -->
+  <mx-column field="customerName" title="Customer Name" alignment="left" />
+  <mx-column field="mobile" alignment="right" />
+  <mx-column field="email" alignment="left" />
+  <mx-column field="goal" alignment="left" />
+  <mx-column field="periodInM" title="Period in Month" />
+  <mx-column field="status">
+    <ng-template #cell let-item>
+      <mx-badge
+        [text]="item.status"
+        [variant]="item.status === 'Open' ? 'info' : 'secondary'"
+      />
+    </ng-template>
+  </mx-column>
+  <mx-column field="createdAt" title="Created">
+    <ng-template #cell let-item>
+      {{ item.createdAt | date: 'medium' }}
+    </ng-template>
+  </mx-column>
+  <!-- columns -->
+</mx-grid-shell>

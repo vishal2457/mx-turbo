@@ -1,0 +1,66 @@
+::ng-deep .ng-value-label {
+  @apply text-foreground;
+}
+
+::ng-deep
+  .ng-select.ng-select-multiple
+  .ng-select-container
+  .ng-value-container
+  .ng-value {
+  @apply bg-accent;
+}
+
+::ng-deep
+  .ng-select.ng-select-multiple
+  .ng-select-container
+  .ng-value-container
+  .ng-value
+  .ng-value-icon.left {
+  @apply border-border border text-foreground hover:bg-accent;
+}
+
+::ng-deep .ng-select.ng-select-focused:not(.ng-select-opened) > .ng-select-container {
+  @apply border-ring border
+}
+
+
+::ng-deep .ng-input input {
+  @apply text-foreground;
+}
+
+::ng-deep .ng-dropdown-panel {
+  @apply bg-background;
+}
+
+::ng-deep .ng-dropdown-panel .ng-dropdown-panel-items .ng-option {
+  @apply bg-card text-foreground hover:bg-accent hover:text-foreground;
+}
+
+::ng-deep
+  .ng-dropdown-panel
+  .ng-dropdown-panel-items
+  .ng-option.ng-option-selected {
+  @apply hover:bg-accent hover:text-foreground bg-accent text-foreground;
+}
+
+::ng-deep
+  .ng-dropdown-panel
+  .ng-dropdown-panel-items
+  .ng-option.ng-option-marked {
+  @apply bg-card text-foreground hover:bg-accent hover:text-foreground;
+}
+
+::ng-deep
+  .ng-dropdown-panel
+  .ng-dropdown-panel-items
+  .ng-option.ng-option-selected.ng-option-marked {
+  @apply hover:bg-accent hover:text-foreground bg-accent text-foreground;
+}
+
+::ng-deep .ng-dropdown-panel {
+  @apply border border-border border-t-border;
+}
+
+::ng-deep .ng-dropdown-panel.ng-select-bottom {
+  @apply border border-t-border;
+}

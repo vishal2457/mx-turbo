@@ -1,0 +1,10 @@
+{"level":"info","message":"GET /api/v1/user/me 401 - 1.716 ms","timestamp":"2024-10-15T12:44:30.207Z"}
+{"level":"info","message":"GET /api/v1/member/count-new-by-month?year=2024&month=10 401 - 0.991 ms","timestamp":"2024-10-15T12:44:30.214Z"}
+{"level":"info","message":"GET /api/v1/member/revenue-by-month?year=2024&month=10 401 - 0.419 ms","timestamp":"2024-10-15T12:44:30.217Z"}
+{"level":"info","message":"GET /api/v1/enquiry/count-status-open 401 - 0.347 ms","timestamp":"2024-10-15T12:44:30.219Z"}
+{"level":"info","message":"GET /api/v1/enquiry/list?page=1&limit=20&sort=%7B%7D&filters=%7B%22status%22:%22eq%7COpen%7Ct%22%7D&fields= 401 - 0.227 ms","timestamp":"2024-10-15T12:44:30.221Z"}
+{"level":"info","message":"GET /api/v1/enquiry/list?page=1&limit=20&sort=%7B%7D&filters=%7B%22status%22:%22eq%7COpen%7Ct%22%7D&fields= 401 - 0.191 ms","timestamp":"2024-10-15T12:44:30.222Z"}
+{"level":"info","message":"GET /api/v1/enquiry/list?page=1&limit=25&sort=%7B%7D&filters=%7B%22status%22:%22eq%7COpen%7Ct%22%7D&fields= 401 - 0.128 ms","timestamp":"2024-10-15T12:44:30.223Z"}
+{"level":"info","message":"GET /api/v1/member/count 401 - 0.190 ms","timestamp":"2024-10-15T12:44:30.224Z"}
+{"level":"info","message":"GET /api/v1/member/last-n-month-revenue 401 - 1.998 ms","timestamp":"2024-10-15T12:44:30.230Z"}
+{"level":"info","message":"GET /api/v1/member/at-risk 401 - 0.436 ms","timestamp":"2024-10-15T12:44:30.231Z"}

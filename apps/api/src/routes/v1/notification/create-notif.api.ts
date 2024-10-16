@@ -1,14 +1,9 @@
 import { Router } from "express";
-import { other, success } from "../../../shared/api-response/response-handler";
+import { TB_customerFcm, TB_notification } from "@repo/mx-schema";
 import { db } from "../../../db/db";
-import {
-  TB_customerFcm,
-  TB_notification,
-  Z_notification_insert,
-} from "@repo/mx-schema";
-import { validate } from "../../../shared/middlewares/validation.middleware";
-import { firebaseNotificationQueue } from "../../../shared/queue/firebase-notification/firebase-notification.queue";
+import { other, success } from "../../../shared/api-response/response-handler";
 import { ImageUpload } from "../../../shared/middlewares/multer.middleware";
+import { firebaseNotificationQueue } from "../../../shared/queue/firebase-notification/firebase-notification.queue";
 
 export default Router().post(
   "/create",

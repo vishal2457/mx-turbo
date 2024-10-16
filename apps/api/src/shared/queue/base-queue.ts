@@ -1,8 +1,8 @@
-import { JobsOptions, Queue, QueueEvents, Worker } from 'bullmq';
-import Redis from 'ioredis';
-import { queueConnection } from './queue-connection';
-import { logger } from '../logger/logger';
-import { BullAdapter } from '@bull-board/api/bullAdapter';
+import { JobsOptions, Queue, QueueEvents, Worker } from "bullmq";
+import Redis from "ioredis";
+import { queueConnection } from "./queue-connection";
+import { logger } from "../logger/logger";
+import { BullAdapter } from "@bull-board/api/bullAdapter";
 
 export const allQueues = [];
 
@@ -21,7 +21,7 @@ export class BaseQueue {
     // push all queue for the job board
     allQueues.push(new BullAdapter(this.queue, { allowRetries: false }));
 
-    worker.on('completed', (job) => {
+    worker.on("completed", (job) => {
       logger.info(`Job Completed`, {
         id: job.id,
         queue: job.queueName,
@@ -29,7 +29,7 @@ export class BaseQueue {
       });
     });
 
-    worker.on('failed', (job, err) => {
+    worker.on("failed", (job, err) => {
       logger.error(`Job Failed ${err.stack}`, {
         id: job.id,
         queue: job.queueName,

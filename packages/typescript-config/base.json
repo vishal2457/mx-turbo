@@ -4,19 +4,21 @@
   "compilerOptions": {
     "rootDir": ".",
     "composite": false,
-    "declaration": true,
-    "declarationMap": true,
+    "declaration": false,
+    "declarationMap": false,
     "esModuleInterop": true,
     "forceConsistentCasingInFileNames": true,
     "inlineSources": false,
-    "isolatedModules": true,
+    "isolatedModules": false,
     "module": "NodeNext",
     "moduleResolution": "NodeNext",
     "noUnusedLocals": false,
     "noUnusedParameters": false,
     "preserveWatchOutput": true,
     "skipLibCheck": true,
-    "strict": true
+    "noImplicitAny": false,
+    "strict": true,
+    
   },
   "exclude": ["node_modules"]
 }

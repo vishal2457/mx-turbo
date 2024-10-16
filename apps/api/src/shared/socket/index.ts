@@ -1,8 +1,8 @@
-import { Server as HttpServer } from 'http';
-import { Server as SocketIOServer, Socket } from 'socket.io';
-import { GLOBAL_CONSTANTS } from '../global-constants';
-import { events } from './event-config';
-import { decodeToken } from '../jwt/token-utils';
+import { Server as HttpServer } from "http";
+import { Server as SocketIOServer, Socket } from "socket.io";
+import { GLOBAL_CONSTANTS } from "../global-constants";
+import { events } from "./event-config";
+import { decodeToken } from "../jwt/token-utils";
 
 interface ClientMap {
   [userId: string]: string;
@@ -16,14 +16,14 @@ interface EventConfig {
 }
 
 class SocketManager {
-  private io: SocketIOServer;
+  private io!: SocketIOServer;
   public clients: ClientMap = {};
 
   initialize(server: HttpServer) {
     this.io = new SocketIOServer(server, {
       cors: {
-        origin: '*', // Allow all origins (for development purposes)
-        methods: ['GET', 'POST'],
+        origin: "*", // Allow all origins (for development purposes)
+        methods: ["GET", "POST"],
       },
     });
 
@@ -31,7 +31,7 @@ class SocketManager {
       const token = socket.handshake.query.auth as string;
       const user = decodeToken(token);
       if (!user) {
-        return next(new Error('authentication error'));
+        return next(new Error("authentication error"));
       }
       this.clients[user.id] = socket.id;
     });
@@ -49,7 +49,7 @@ class SocketManager {
 
     socket.on(GLOBAL_CONSTANTS.SOCKET_EVENTS.DISCONNECT, () => {
       // eslint-disable-next-line no-console
-      console.log('User disconnected');
+      console.log("User disconnected");
       const userId = Object.keys(this.clients).find(
         (key) => this.clients[key] === socket.id
       );

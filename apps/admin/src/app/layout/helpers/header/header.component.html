@@ -1,0 +1,100 @@
+@if (theme$|async; as theme) {
+<nav
+  class="bg-background align-middle fixed top-0 z-[102] w-full border-b"
+>
+  <div class="flex justify-between items-center">
+    <div
+      class="flex w-72 py-1 px-2 bg-background justify-between items-center"
+    >
+      <!-- <div class="flex justify-center items-center">
+        @let organisation = organisation$ | async;
+        @if (organisation?.logo) {
+          <mx-image [filename]="organisation?.logo || ''" imageClass="h-8 w-8 my-1 mx-2" />
+        }@else {
+          <mx-image fileURL="/assets/logo.png" imageClass="h-8 w-8 my-1 mx-2" />
+        }
+
+        <span
+          class="text-md font-semibold  whitespace-nowrap underline"
+          >{{ organisation?.panelName || PANEL_CONFIG.name }}</span
+        >
+      </div> -->
+      <mx-icon
+        (click)="sidebarService.toggleSidebar()"
+        icon="dock_to_right"
+        size="lg"
+        class="cursor-pointer"
+      />
+    </div>
+    <div
+      class="flex-grow"
+
+    >
+      <div class="flex justify-end items-center">
+        <!-- <mx-input
+        [control]="searchMember"
+        placeholder="Search Member"
+        inputClass="bg-background border !h-7"
+        [clearable]="true"
+        leftIcon="search"
+      /> -->
+      @if (devEnv) {
+
+        <mx-overlay >
+          <mx-button
+          variant="ghost"
+          class=" mr-2"
+          size="icon"
+          trigger
+        >
+          <mx-icon icon="grid" />
+        </mx-button>
+          <div >
+            <div class="p-2 bg-secondary inline-block">
+              <p class="text-lg">Shortcuts</p>
+            </div>
+
+          </div>
+        </mx-overlay>
+
+        <mx-button
+        variant="ghost"
+        class=" mx-2"
+        size="icon"
+        (handleClick)="openAskModal()"
+      >
+        <mx-icon icon="chat" />
+      </mx-button>
+      }
+        <mx-dropdown>
+          <mx-button
+            variant="ghost"
+            class=" mr-2"
+            size="icon"
+            trigger
+          >
+            <mx-icon icon="person" />
+          </mx-button>
+          <mx-dropdown-item
+            text="Light"
+            icon="light"
+            (handleClick)="themeService.changeTheme('light')"
+          />
+          <mx-dropdown-item
+            text="Dark"
+            icon="dark"
+            (handleClick)="themeService.changeTheme('dark')"
+          />
+          <mx-dropdown-item
+            text="Logout"
+            icon="logout"
+            (handleClick)="logout()"
+          />
+          <mx-dropdown-item [seperator]="true" />
+          <mx-dropdown-item icon="time" [text]="'Last Build: ' + lastBuild" />
+        </mx-dropdown>
+      </div>
+    </div>
+  </div>
+</nav>
+}

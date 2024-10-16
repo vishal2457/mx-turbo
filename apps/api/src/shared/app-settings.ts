@@ -1,13 +1,13 @@
 const {
-  APP_NAME = "maximus",
+  APP_NAME = "fitflow",
   NODE_ENV = "development",
-  PORT = 3002,
+  PORT = 3001,
   ENCRYPT = false,
   NODE_HOST = "localhost",
-  REDIS_HOST = "localhost",
+  REDIS_HOST = "",
   REDIS_PORT = "6379",
-  DB_NAME = "maximus",
-  DB_HOST = "localhost",
+  DB_NAME = "fitflow",
+  DB_HOST = "",
   DB_PORT = "5432",
   DB_USERNAME = "root",
   DB_PASSWORD = "root",
@@ -21,6 +21,8 @@ const {
   FIREBASE_PRIVATE_KEY_ID,
   RAZORPAY_KEY,
   RAZORPAY_SECRET,
+  OPEN_AI_API,
+  ENABLE_AI_TAB = 0,
 } = process.env;
 
 export const APP_SETTINGS = {
@@ -49,4 +51,6 @@ export const APP_SETTINGS = {
   RAZORPAY_SECRET,
   REDIS_HOST,
   REDIS_PORT,
+  OPEN_AI_API,
+  ENABLE_AI_TAB: ENABLE_AI_TAB == 0 ? false : true,
 };

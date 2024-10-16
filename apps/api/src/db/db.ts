@@ -3,10 +3,20 @@ import { Pool } from "pg";
 import {
   TB_customer,
   TB_customerFcm,
+  TB_member,
+  TB_memberAttendance,
   TB_menu,
   TB_notification,
+  TB_organisation,
+  TB_plan,
   TB_role,
+  TB_rolePermission,
   TB_user,
+  TB_memberPlan,
+  TB_bodyPart,
+  TB_exercise,
+  TB_workoutTemplate,
+  // ADD NEW DB SCHEMA
 } from "@repo/mx-schema";
 import { APP_SETTINGS } from "../shared/app-settings";
 import { logger } from "../shared/logger/logger";
@@ -42,7 +52,15 @@ export const db = drizzle(pool, {
     TB_menu,
     TB_notification,
     TB_role,
-
+    TB_memberAttendance,
+    TB_member,
+    TB_organisation,
+    TB_plan,
+    TB_rolePermission,
+    TB_memberPlan,
+    TB_bodyPart,
+    TB_exercise,
+    TB_workoutTemplate,
     // ADD NEW DB SCHEMA
   },
 });

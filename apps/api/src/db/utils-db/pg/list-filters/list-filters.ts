@@ -1,4 +1,5 @@
 import {
+  and,
   asc,
   between,
   desc,
@@ -8,20 +9,23 @@ import {
   like,
   lt,
   ne,
+  SQLWrapper,
 } from "drizzle-orm";
 import { Request } from "express";
 import { expandFilters } from "@repo/helpers";
 import { c_pagination, FilterData, v_list_filters } from "@repo/mx-schema";
 import { db } from "../../../db";
+import { PgSelect } from "drizzle-orm/pg-core";
 
 export const getListQueryWithFilters = (
-  schema,
-  queryParams: Request["query"]
-) => {
+  table,
+  queryParams: Request["query"],
+  defaultWhere: SQLWrapper[] = []
+): PgSelect => {
   const { filters, sort, limit, page, fields } =
     v_list_filters.parse(queryParams);
 
-  const _columns: any = getTableColumns(schema);
+  const _columns: any = getTableColumns(table);
   let columns = _columns;
 
   if (fields.length) {
@@ -31,31 +35,46 @@ export const getListQueryWithFilters = (
     }, {});
   }
 
-  const query = db.select(columns).from(schema).$dynamic();
+  const query = db
+    .select(fields.length ? columns : null)
+    .from(table)
+    .$dynamic();
   const expandedFilters: FilterData[] = expandFilters(filters);
+
+  const whereCondition: any[] = [...defaultWhere];
   // add where conditions
   if (expandedFilters?.length) {
     for (const filter of expandedFilters) {
-      const column = schema[filter.field];
+      const column = table[filter.field];
       if (filter.condition === "equals") {
-        query.where(eq(column, filter.value));
+        whereCondition.push(eq(column, filter.value));
       } else if (filter.condition === "greater than") {
-        query.where(gt(column, filter.value));
+        whereCondition.push(gt(column, filter.value));
       } else if (filter.condition === "less than") {
-        query.where(lt(column, filter.value));
+        whereCondition.push(lt(column, filter.value));
       } else if (filter.condition === "not equal") {
-        query.where(ne(column, filter.value));
+        whereCondition.push(ne(column, filter.value));
       } else if (filter.condition === "contains") {
-        query.where(like(column, `%${filter.value}%`));
+        whereCondition.push(like(column, `%${filter.value}%`));
       } else if (filter.condition === "between") {
         const stringValue = filter.value.toString();
         const [value1, value2] = stringValue.includes("-")
           ? stringValue.split("-")
           : [];
         if (value1 && value2) {
-          query.where(between(column, value1, value2));
+          whereCondition.push(between(column, value1, value2));
         }
       }
+    }
+  }
+
+  const whereConditionLength = whereCondition.length;
+
+  if (whereConditionLength) {
+    if (whereConditionLength >= 1) {
+      query.where(and(...whereCondition));
+    } else {
+      query.where(whereCondition[0]);
     }
   }
 
@@ -74,5 +93,6 @@ export const getListQueryWithFilters = (
     });
     query.limit(pagination.limit).offset(pagination.offset);
   }
+
   return query;
 };

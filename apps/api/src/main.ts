@@ -1,11 +1,10 @@
 import * as dotenv from "dotenv";
 dotenv.config({ path: `${process.cwd()}/.env` });
-
 import http from "http";
+import { checkDbConnection } from "./db/db";
 import app from "./express-app";
 import { APP_SETTINGS } from "./shared/app-settings";
 import { logger } from "./shared/logger/logger";
-import { checkDbConnection } from "./db/db";
 import { socketManager } from "./shared/socket";
 
 async function main() {

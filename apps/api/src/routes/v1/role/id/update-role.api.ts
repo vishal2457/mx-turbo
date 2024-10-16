@@ -1,18 +1,30 @@
+import { createInsertSchema } from "drizzle-zod";
 import { Router } from "express";
-import { v_param_id, Z_role_insert } from "@repo/mx-schema";
+import { TB_role, TB_rolePermission, v_param_id } from "@repo/mx-schema";
+import { db } from "../../../../db/db";
 import { success } from "../../../../shared/api-response/response-handler";
 import ah from "../../../../shared/async-handler.util";
 import { validate } from "../../../../shared/middlewares/validation.middleware";
 import { roleService } from "../role.service";
 
-export default Router().post(
+const bodyValidations = createInsertSchema(TB_role)
+  .omit({ organisationID: true })
+  .extend({
+    permissions: createInsertSchema(TB_rolePermission).array(),
+  });
+
+export default Router().put(
   "/update/:id",
   validate({
-    body: Z_role_insert,
+    body: bodyValidations,
     params: v_param_id,
   }),
   ah(async (req, res) => {
-    const result = await roleService.updateRole(req.body, req.params.id);
-    success(res, result, "updated");
+    db.transaction(async (tx) => {
+      const result = await roleService.updateRole(req.body, req.params.id, tx);
+      await roleService.deleteRolePermission(req.params.id, tx);
+      await roleService.createRolePermission(req.body.permissions);
+      success(res, result, "updated");
+    });
   })
 );

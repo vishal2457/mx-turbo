@@ -1,0 +1,19 @@
+<mx-form [form]="userForm" [zodSchema]="Z_user">
+  <div class="grid grid-cols-3 gap-4">
+    <mx-input label="Name" [control]="formControls.name" />
+    <mx-input label="Email" [control]="formControls.email" />
+    <mx-input-password
+      label="Password"
+      [control]="formControls.password"
+      [showSuggestPassword]="true"
+    />
+    <mx-select
+      [control]="formControls.roles"
+      label="Roles"
+      apiURL="/role/all"
+      [multiple]="true"
+      bindValue="id"
+      bindLabel="name"
+    />
+  </div>
+</mx-form>
