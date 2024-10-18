@@ -21,7 +21,6 @@
   "devDependencies": {
     "@repo/eslint-config": "workspace:*",
     "@repo/mx-schema": "workspace:*",
-    "@repo/jest-presets": "workspace:*",
     "@repo/typescript-config": "workspace:*",
     "@types/jest": "^29.5.12",
     "@types/node": "^20.11.24",
