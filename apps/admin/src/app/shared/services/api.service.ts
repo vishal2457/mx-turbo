@@ -28,7 +28,7 @@ export class ApiService {
   constructor(private _http: HttpClient) {}
 
   private makeURL(endpoint: string) {
-    return `${environment.api}/api/v1${endpoint}`;
+    return `${environment.api}${endpoint}`;
   }
 
   get<T>(
@@ -98,6 +98,8 @@ export class ApiService {
   }
 
   private handleError = (error: HttpErrorResponse) => {
+    console.log(error);
+
     this.notif.show({
       text:
         this.qualifyError(error.error) ||

@@ -9,7 +9,7 @@ import { VariantProps, cva } from 'class-variance-authority';
 import { mergetw } from '../utils/tw-merge';
 
 const badgeVariants = cva(
-  'inline-flex items-center gap-x-1.5 py-1 px-2 rounded-full text-xs font-medium',
+  'inline-flex items-center gap-x-1.5 py-1 px-2 rounded-md text-xs font-medium',
   {
     variants: {
       variant: {
