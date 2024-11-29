@@ -12,13 +12,9 @@ import { MxFormErrorComponent } from './form-error';
   selector: 'mx-checkbox',
   standalone: true,
   imports: [
-    NgClass,
     MxHintComponent,
     ReactiveFormsModule,
     FormControlPipe,
-    NgIf,
-    MxIconComponent,
-    NgForOf,
     MxFormErrorComponent,
   ],
   template: `<div class="flex items-center space-x-2">

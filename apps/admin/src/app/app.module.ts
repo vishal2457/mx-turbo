@@ -1,38 +1,38 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 
-import { AppRoutingModule } from './app-routing.module';
-import { AppComponent } from './app.component';
-import { MainComponent } from './layout/main/main.component';
-import { SidebarComponent } from './layout/helpers/sidebar/sidebar.component';
-import { HeaderComponent } from './layout/helpers/header/header.component';
 import {
   HTTP_INTERCEPTORS,
   HttpClient,
   HttpClientModule,
 } from '@angular/common/http';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { GbNotificationModule } from './shared/ui/notification/notification.module';
+import { AppComponent } from './app.component';
 import { TokenInterceptor } from './shared/services/token-interceptor.service';
-import { MxDropdownModule } from './shared/ui/dropdown/dropdown.module';
-import { MxIconComponent } from './shared/ui/icon';
 import { MxButtonComponent } from './shared/ui/button';
-import { MxInputComponent } from './shared/ui/form/mx-input';
-import { MxProgressbarComponent } from './shared/ui/progress-bar/progress-bar';
 import { MxImageComponent } from './shared/ui/display-image';
+import { MxDropdownModule } from './shared/ui/dropdown/dropdown.module';
+import { MxInputComponent } from './shared/ui/form/mx-input';
+import { MxIconComponent } from './shared/ui/icon';
+import { GbNotificationModule } from './shared/ui/notification/notification.module';
 import { MxOverlayComponent } from './shared/ui/overlay';
+import { MxProgressbarComponent } from './shared/ui/progress-bar/progress-bar';
+import { MxInputNumberComponent } from './shared/ui/form/mx-input-number';
+import { MxCheckboxComponent } from './shared/ui/form/mx-checkbox';
+import { DynamicInputComponent } from './components/dynamic-input';
+import { MxCardModule } from './shared/ui/card/card.module';
+import { MxSelectComponent } from './shared/ui/form/mx-select/mx-select';
+import { MxBadgeComponent } from './shared/ui/badge';
+import { MxInputPasswordComponent } from './shared/ui/form/mx-input-password';
+import { MxTextareaComponent } from './shared/ui/form/textarea';
+import { MxFileUploadComponent } from './shared/ui/form/mx-file-upload';
+import { MxMiniCounterComponent } from './shared/ui/form/mini-counter';
 
 @NgModule({
-  declarations: [
-    AppComponent,
-    MainComponent,
-    SidebarComponent,
-    HeaderComponent,
-  ],
+  declarations: [AppComponent, DynamicInputComponent],
   imports: [
     BrowserModule,
     BrowserAnimationsModule,
-    AppRoutingModule,
     MxButtonComponent,
     MxIconComponent,
     MxDropdownModule,
@@ -41,7 +41,20 @@ import { MxOverlayComponent } from './shared/ui/overlay';
     GbNotificationModule.forRoot(),
     MxImageComponent,
     MxOverlayComponent,
+    MxInputComponent,
+    MxInputNumberComponent,
+    MxImageComponent,
+    MxCheckboxComponent,
+    MxDropdownModule,
+    MxCardModule,
     HttpClientModule,
+    MxSelectComponent,
+    MxBadgeComponent,
+    MxInputPasswordComponent,
+    MxTextareaComponent,
+    MxFileUploadComponent,
+    MxMiniCounterComponent,
+    MxSelectComponent,
   ],
   providers: [
     HttpClient,

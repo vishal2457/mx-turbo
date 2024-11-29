@@ -7,6 +7,7 @@
     "clean": "turbo run clean",
     "dev": "turbo run dev",
     "dev-ng": "turbo run dev --filter=admin",
+    "plop-server-dev": "cd _plop/plop-server && npm run dev",
     "format": "prettier --write \"**/*.{ts,tsx,md}\"",
     "lint": "turbo run lint",
     "test": "turbo run test"

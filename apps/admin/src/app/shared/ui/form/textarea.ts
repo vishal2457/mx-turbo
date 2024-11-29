@@ -14,24 +14,24 @@ import { MxFormErrorComponent } from './form-error';
     ReactiveFormsModule,
     FormsModule,
     FormControlPipe,
-    NgClass,
-    NgIf,
     MxHintComponent,
-    NgFor,
     TextFieldModule,
     MxFormErrorComponent,
   ],
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
     <div>
-      <label
-        *ngIf="label"
-        [for]="_id"
-        class="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
-      >
-        {{ label }}
-        <span class="text-red-600" *ngIf="required">*</span>
-      </label>
+      @if (label) {
+        <label
+          [for]="_id"
+          class="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
+        >
+          {{ label }}
+          @if (required) {
+            <span class="text-red-600">*</span>
+          }
+        </label>
+      }
       <textarea
         cdkTextareaAutosize
         cdkAutosizeMinRows="1"
@@ -45,7 +45,9 @@ import { MxFormErrorComponent } from './form-error';
         [errors]="control().errors"
         [showError]="control().touched || control().dirty"
       />
-      <mx-hint *ngFor="let hint of hints" [message]="hint" />
+      @for (hint of hints; track hint) {
+        <mx-hint [message]="hint" />
+      }
     </div>
   `,
 })

@@ -8,12 +8,7 @@ import { MxButtonComponent } from '../button';
 @Component({
   selector: 'mx-mini-counter',
   standalone: true,
-  imports: [
-    MxInputNumberComponent,
-    MxInputComponent,
-    FormControlPipe,
-    MxButtonComponent,
-  ],
+  imports: [MxInputNumberComponent, MxButtonComponent],
   template: `<div class="flex flex-col gap-2">
     @if (label) {
       <label
