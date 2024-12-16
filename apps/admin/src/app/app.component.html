@@ -28,20 +28,7 @@
         <div mxCard>
           <div mxCardContent class="flex items-center p-2 justify-between">
             <p>{{ item.config?.name }}</p>
-            <mx-overlay>
-              <mx-button trigger>config</mx-button>
-             <div class="p-3 flex flex-col gap-3">
-              <mx-checkbox label="Remove" [control]="checkControl" />
-              <mx-checkbox label="Required Field" [control]="checkControl" />
-              @for (field of inputList; track field.name) {
-                <mx-badge
-                  class="cursor-pointer"
-                  [text]="field.name"
-                  [variant]="'success'"
-                  (click)="handleInputClick(field.id)"
-                />
-              }             </div>
-            </mx-overlay>
+            <input-config />
           </div>
         </div>
       }

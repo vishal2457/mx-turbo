@@ -1,8 +1,20 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import {
+  Component,
+  EventEmitter,
+  input,
+  Input,
+  InputSignal,
+  OnInit,
+  Output,
+} from '@angular/core';
 import { FormBaseComponent } from './base-form';
 import { NgClass, NgForOf, NgIf } from '@angular/common';
 import { MxHintComponent } from '../hint';
-import { ReactiveFormsModule } from '@angular/forms';
+import {
+  AbstractControl,
+  FormControl,
+  ReactiveFormsModule,
+} from '@angular/forms';
 import { mergetw } from '../../utils/tw-merge';
 import { FormControlPipe } from '../../pipe/form-control';
 import { MxIconComponent } from '../icon';

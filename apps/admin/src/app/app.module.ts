@@ -27,9 +27,10 @@ import { MxInputPasswordComponent } from './shared/ui/form/mx-input-password';
 import { MxTextareaComponent } from './shared/ui/form/textarea';
 import { MxFileUploadComponent } from './shared/ui/form/mx-file-upload';
 import { MxMiniCounterComponent } from './shared/ui/form/mini-counter';
+import { InputConfigComponent } from './components/input-config';
 
 @NgModule({
-  declarations: [AppComponent, DynamicInputComponent],
+  declarations: [AppComponent, DynamicInputComponent, InputConfigComponent],
   imports: [
     BrowserModule,
     BrowserAnimationsModule,

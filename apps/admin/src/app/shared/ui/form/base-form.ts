@@ -41,6 +41,9 @@ export class FormBaseComponent {
    * @Determines if the field is required or not
    */
   get required() {
+    if (!this.control) {
+      return false;
+    }
     const control = this.control();
     if (control.validator) {
       const validator = control.validator({} as AbstractControl);
