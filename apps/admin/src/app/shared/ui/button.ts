@@ -55,7 +55,6 @@ const buttonVariants = cva(
   selector: 'mx-button',
   standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [NgIf, MxIconComponent],
   template: `<button
     [type]="type"
     [disabled]="disabled"

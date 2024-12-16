@@ -72,3 +72,8 @@ export const INPUT_LIST = [
     id: INPUT_IDS.RADIO_BUTTON,
   },
 ];
+
+export const DATATYPE_TO_INPUT_MAPPING = {
+  string: INPUT_IDS.INPUT,
+  number: INPUT_IDS.INPUT_NUMBER,
+};

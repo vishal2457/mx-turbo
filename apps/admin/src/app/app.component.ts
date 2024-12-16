@@ -2,8 +2,10 @@ import { Component, inject } from '@angular/core';
 import { SocketService } from './shared/services/socket.service';
 import { ApiService } from './shared/services/api.service';
 import { FormControl } from '@angular/forms';
-import { INPUT_LIST } from './shared/constants/input-lists.constant';
+import { INPUT_LIST } from './shared/_internal/constants';
 import { DynamicForm } from './shared/types/form.type';
+import { SubSink } from './shared/utils/sub-sink';
+import { getInputIds } from './shared/_internal/utils';
 
 @Component({
   selector: 'app-root',
@@ -23,16 +25,18 @@ export class AppComponent {
   schemaSelectControl = new FormControl();
   checkControl = new FormControl(true);
 
+  private subs = new SubSink();
+
   ngOnInit(): void {
+    this.handleSchemaSelection();
     this.api.get<any[]>('/get-all-schema').subscribe((data) => {
       this.schemaList = data.data;
-
-      this.selectedSchema = this.schemaList[0];
+      this.schemaSelectControl.patchValue(this.schemaList[0]?.name);
     });
   }
 
   ngOnDestroy(): void {
-    // this.subs.unsubscribe();
+    this.subs.unsubscribe();
   }
 
   handleInputClick(inputID) {
@@ -61,5 +65,31 @@ export class AppComponent {
     return typeof item?.key === 'string'
       ? `${item.key}: ${item.value.type}`
       : '';
+  }
+
+  private handleSchemaSelection() {
+    this.subs.sink = this.schemaSelectControl.valueChanges.subscribe(
+      (value: string) => {
+        const selectedSchema = this.schemaList.find(
+          (schema) => schema.name === value,
+        );
+
+        const properties = Object.entries(selectedSchema?.properties);
+        const array: DynamicForm[] = [];
+        for (const [index, [key, value]] of properties.entries()) {
+          array.push({
+            inputID: getInputIds(value),
+            rowIndex: index,
+            columnIndex: 0,
+            config: {
+              name: key,
+              required: selectedSchema?.required.includes(key),
+              inputType: '',
+            },
+          });
+        }
+        this.formList = array;
+      },
+    );
   }
 }

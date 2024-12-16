@@ -1,5 +1,4 @@
 import { CdkMenuModule } from '@angular/cdk/menu';
-import { NgClass } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,

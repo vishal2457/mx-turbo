@@ -1,4 +1,4 @@
-import { INPUT_IDS } from '../constants/input-lists.constant';
+import { INPUT_IDS } from '../_internal/constants';
 
 export interface DynamicForm {
   inputID: INPUT_IDS;
