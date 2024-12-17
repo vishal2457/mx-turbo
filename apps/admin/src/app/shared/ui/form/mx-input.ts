@@ -1,6 +1,6 @@
 import { JsonPipe, NgClass } from '@angular/common';
 import { Component, computed, input, Input } from '@angular/core';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { FormControlPipe } from '../../pipe/form-control';
 import { mergetw } from '../../utils/tw-merge';
 import { MxHintComponent } from '../hint';
@@ -19,7 +19,6 @@ import { MxFormErrorComponent } from './form-error';
     MxHintComponent,
     MxIconComponent,
     MxFormErrorComponent,
-    JsonPipe,
   ],
   template: `<div>
     @if (label) {
@@ -28,7 +27,7 @@ import { MxFormErrorComponent } from './form-error';
         class="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70 ml-1 capitalize"
       >
         {{ label }}
-        @if (required) {
+        @if (requiredAstrick()) {
           <span class="text-red-600">*</span>
         }
       </label>

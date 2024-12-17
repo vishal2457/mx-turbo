@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { Component, computed, inject, signal } from '@angular/core';
 import { SocketService } from './shared/services/socket.service';
 import { ApiService } from './shared/services/api.service';
 import { FormControl } from '@angular/forms';
@@ -17,7 +17,12 @@ export class AppComponent {
   private api = inject(ApiService);
 
   inputList = INPUT_LIST;
-  formList: DynamicForm[] = [];
+  formList = signal<DynamicForm[]>([]);
+  computedFormList = computed(() => {
+    const existingForm = this.formList();
+
+    return existingForm.filter((i) => !i.config?.removed);
+  });
 
   schemaList: any[] = [];
   removedKey: string[] = [];
@@ -39,20 +44,6 @@ export class AppComponent {
     this.subs.unsubscribe();
   }
 
-  handleInputClick(inputID) {
-    const position = this.formList.length - 1;
-    this.formList.push({
-      inputID: inputID,
-      rowIndex: position,
-      columnIndex: 0,
-      config: {
-        name: `test-${inputID}`,
-        required: true,
-        inputType: '',
-      },
-    });
-  }
-
   selectSchema(schema: any) {
     this.removedKey = [];
     this.selectedSchema = schema;
@@ -67,6 +58,14 @@ export class AppComponent {
       : '';
   }
 
+  handleFormChange({ id, ...rest }: DynamicForm['config'] & { id: string }) {
+    this.formList.update((existingForm) => {
+      const fieldIndex = existingForm.findIndex((i) => i.id === id);
+      existingForm[fieldIndex].config = { ...rest };
+      return [...existingForm];
+    });
+  }
+
   private handleSchemaSelection() {
     this.subs.sink = this.schemaSelectControl.valueChanges.subscribe(
       (value: string) => {
@@ -77,18 +76,21 @@ export class AppComponent {
         const properties = Object.entries(selectedSchema?.properties);
         const array: DynamicForm[] = [];
         for (const [index, [key, value]] of properties.entries()) {
+          const inputID = getInputIds(value);
           array.push({
-            inputID: getInputIds(value),
             rowIndex: index,
             columnIndex: 0,
+            id: key,
             config: {
-              name: key,
+              label: key,
               required: selectedSchema?.required.includes(key),
-              inputType: '',
+              inputType: inputID,
+              removed: false,
+              placeholder: `Enter ${key}`,
             },
           });
         }
-        this.formList = array;
+        this.formList.set([...array]);
       },
     );
   }

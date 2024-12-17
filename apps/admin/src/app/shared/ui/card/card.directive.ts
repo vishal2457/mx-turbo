@@ -18,7 +18,7 @@ class BaseCardClass {
     this.renderer.setAttribute(
       this.elementRef.nativeElement,
       'class',
-      mergetw(baseClass, this.class)
+      mergetw(baseClass, this.class),
     );
   }
 }
@@ -29,7 +29,7 @@ class BaseCardClass {
 export class MxCardDirective extends BaseCardClass implements OnInit {
   ngOnInit(): void {
     this.initClass(
-      'rounded-lg border bg-background text-card-foreground shadow-sm'
+      'rounded-lg border bg-background text-card-foreground shadow-sm',
     );
   }
 }

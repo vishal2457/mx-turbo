@@ -1,5 +1,5 @@
+import { NgClass } from '@angular/common';
 import { Component, input, Input, OnDestroy, OnInit } from '@angular/core';
-import { FormBaseComponent } from './base-form';
 import {
   AbstractControl,
   FormsModule,
@@ -7,13 +7,13 @@ import {
   ValidationErrors,
 } from '@angular/forms';
 import { FormControlPipe } from '../../pipe/form-control';
-import { JsonPipe, NgClass } from '@angular/common';
+import { SubSink } from '../../utils/sub-sink';
+import { mergetw } from '../../utils/tw-merge';
+import { MxCardModule } from '../card/card.module';
 import { MxHintComponent } from '../hint';
 import { MxIconComponent } from '../icon';
-import { mergetw } from '../../utils/tw-merge';
 import { MxSvgIconComponent } from '../svg-icon';
-import { MxCardModule } from '../card/card.module';
-import { SubSink } from '../../utils/sub-sink';
+import { FormBaseComponent } from './base-form';
 import { MxFormErrorComponent } from './form-error';
 
 @Component({
@@ -29,7 +29,6 @@ import { MxFormErrorComponent } from './form-error';
     MxSvgIconComponent,
     MxCardModule,
     MxFormErrorComponent,
-    JsonPipe,
   ],
   template: `<div class="relative">
     @if (isPasswordFocused && regsiterMode()) {
@@ -121,7 +120,7 @@ import { MxFormErrorComponent } from './form-error';
         class="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70 ml-1 capitalize"
       >
         {{ label }}
-        @if (required) {
+        @if (requiredAstrick()) {
           <span class="text-red-600">*</span>
         }
       </label>

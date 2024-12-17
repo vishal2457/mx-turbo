@@ -37,21 +37,20 @@ export class FormBaseComponent {
 
   @Input() showErrors = false;
 
-  /**
-   * @Determines if the field is required or not
-   */
-  get required() {
-    if (!this.control) {
-      return false;
-    }
-    const control = this.control();
-    if (control.validator) {
-      const validator = control.validator({} as AbstractControl);
-      if (validator?.['required']) {
-        return validator['required'];
-      }
-      return control.validator({} as AbstractControl);
-    }
-    return false;
-  }
+  requiredAstrick = input(false);
+
+  // /**
+  //  * @Determines if the field is required or not
+  //  */
+  // get required() {
+  //   const control = this.control();
+  //   if (control.validator) {
+  //     const validator = control.validator({} as AbstractControl);
+  //     if (validator?.['required']) {
+  //       return validator['required'];
+  //     }
+  //     return control.validator({} as AbstractControl);
+  //   }
+  //   return false;
+  // }
 }

@@ -21,9 +21,7 @@ import { MxFormErrorComponent } from '../form-error';
   standalone: true,
   imports: [
     NgSelectModule,
-    NgIf,
     MxHintComponent,
-    NgFor,
     ReactiveFormsModule,
     FormsModule,
     FormControlPipe,
@@ -38,7 +36,7 @@ import { MxFormErrorComponent } from '../form-error';
           class="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
         >
           {{ label }}
-          @if (required) {
+          @if (requiredAstrick()) {
             <span class="text-red-600">*</span>
           }
         </label>

@@ -1,12 +1,14 @@
 import { INPUT_IDS } from '../_internal/constants';
 
 export interface DynamicForm {
-  inputID: INPUT_IDS;
   rowIndex: number;
   columnIndex: number;
+  id: string;
   config?: {
-    name: string;
+    label: string;
     required: boolean;
-    inputType: string;
+    inputType: INPUT_IDS;
+    removed: boolean;
+    placeholder?: string;
   };
 }

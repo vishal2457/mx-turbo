@@ -1,4 +1,4 @@
-import { Component, computed, input, InputSignal } from '@angular/core';
+import { Component, effect, input, InputSignal } from '@angular/core';
 import { FormControl, Validators } from '@angular/forms';
 import { INPUT_IDS } from '../shared/_internal/constants';
 import { DynamicForm } from '../shared/types/form.type';
@@ -7,63 +7,93 @@ import { DynamicForm } from '../shared/types/form.type';
   selector: 'dynamic-input',
   template: `
     @let field = inputConfig();
-    @if (field?.inputID === INPUT_IDS.INPUT) {
+    @if (field?.config?.inputType === INPUT_IDS.INPUT) {
       <mx-input
         [control]="control"
-        [label]="field?.config?.name || ''"
-        placeholder="Enter Name"
+        [label]="field?.config?.label || ''"
+        [placeholder]="field?.config?.placeholder || ''"
+        [requiredAstrick]="!!field?.config?.required"
       />
-    } @else if (field?.inputID === INPUT_IDS.INPUT_NUMBER) {
+    } @else if (field?.config?.inputType === INPUT_IDS.INPUT_NUMBER) {
       <mx-input-number
         [control]="control"
-        [label]="field?.config?.name || ''"
+        [label]="field?.config?.label || ''"
+        [placeholder]="field?.config?.placeholder || ''"
+        [requiredAstrick]="!!field?.config?.required"
       />
-    } @else if (field?.inputID === INPUT_IDS.INPUT_PASSWORD) {
+    } @else if (field?.config?.inputType === INPUT_IDS.INPUT_PASSWORD) {
       <mx-input-password
         [control]="control"
-        [label]="field?.config?.name || ''"
+        [label]="field?.config?.label || ''"
+        [placeholder]="field?.config?.placeholder || ''"
+        [requiredAstrick]="!!field?.config?.required"
       />
-    } @else if (field?.inputID === INPUT_IDS.TEXTAREA) {
-      <mx-textarea [control]="control" [label]="field?.config?.name || ''" />
-    } @else if (field?.inputID === INPUT_IDS.FILE_UPLOAD) {
-      <mx-file-upload />
-    } @else if (field?.inputID === INPUT_IDS.MINI_COUNTER) {
+    } @else if (field?.config?.inputType === INPUT_IDS.TEXTAREA) {
+      <mx-textarea
+        [control]="control"
+        [label]="field?.config?.label || ''"
+        [placeholder]="field?.config?.placeholder || ''"
+        [requiredAstrick]="!!field?.config?.required"
+      />
+    } @else if (field?.config?.inputType === INPUT_IDS.FILE_UPLOAD) {
+      <mx-file-upload [label]="field?.config?.label || ''" />
+    } @else if (field?.config?.inputType === INPUT_IDS.MINI_COUNTER) {
       <mx-mini-counter
         [control]="control"
-        [label]="field?.config?.name || ''"
+        [label]="field?.config?.label || ''"
+        [requiredAstrick]="!!field?.config?.required"
       />
-    } @else if (field?.inputID === INPUT_IDS.DATE_PICKER) {
+    } @else if (field?.config?.inputType === INPUT_IDS.DATE_PICKER) {
       <mx-input
         [control]="control"
-        [label]="field?.config?.name || ''"
+        [label]="field?.config?.label || ''"
         [type]="'date'"
+        [requiredAstrick]="!!field?.config?.required"
       />
-    } @else if (field?.inputID === INPUT_IDS.DATE_TIME_PICKER) {
+    } @else if (field?.config?.inputType === INPUT_IDS.DATE_TIME_PICKER) {
       <mx-input
         [control]="control"
         [type]="'time'"
-        [label]="field?.config?.name || ''"
+        [label]="field?.config?.label || ''"
+        [requiredAstrick]="!!field?.config?.required"
       />
-    } @else if (field?.inputID === INPUT_IDS.SELECT) {
+    } @else if (field?.config?.inputType === INPUT_IDS.SELECT) {
       <mx-select
         [control]="control"
-        [label]="field?.config?.name || ''"
+        [label]="field?.config?.label || ''"
         [items]="['In-progress', 'Completed', 'Paused']"
+        [placeholder]="field?.config?.placeholder || ''"
+        [requiredAstrick]="!!field?.config?.required"
       />
-    } @else if (field?.inputID === INPUT_IDS.MULTI_SELECT) {
+    } @else if (field?.config?.inputType === INPUT_IDS.MULTI_SELECT) {
       <mx-select
         [control]="control"
-        [label]="field?.config?.name || ''"
+        [label]="field?.config?.label || ''"
         [items]="['In-progress', 'Completed', 'Paused']"
         [multiple]="true"
+        [requiredAstrick]="!!field?.config?.required"
       />
-    } @else if (field?.inputID === INPUT_IDS.CHECKBOX) {
-      <mx-checkbox [control]="control" [label]="field?.config?.name || ''" />
+    } @else if (field?.config?.inputType === INPUT_IDS.CHECKBOX) {
+      <mx-checkbox [control]="control" [label]="field?.config?.label || ''" />
     }
   `,
 })
 export class DynamicInputComponent {
   inputConfig: InputSignal<DynamicForm | undefined> = input();
+  required = input<boolean>();
   INPUT_IDS = INPUT_IDS;
-  control = new FormControl('', [Validators.required]);
+  control = new FormControl('', []);
+
+  constructor() {
+    effect(() => {
+      const req = this.required();
+      if (req) {
+        this.control.addValidators([Validators.required]);
+        this.control.updateValueAndValidity();
+      } else if (this.control.hasValidator(Validators.required)) {
+        this.control.removeValidators(Validators.required);
+        this.control.updateValueAndValidity();
+      }
+    });
+  }
 }

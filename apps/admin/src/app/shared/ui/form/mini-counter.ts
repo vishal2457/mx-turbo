@@ -16,7 +16,7 @@ import { MxButtonComponent } from '../button';
         class="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70 ml-1 capitalize"
       >
         {{ label }}
-        @if (required) {
+        @if (requiredAstrick()) {
           <span class="text-red-600">*</span>
         }
       </label>
