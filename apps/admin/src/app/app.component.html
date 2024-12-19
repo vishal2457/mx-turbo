@@ -1,5 +1,5 @@
 <div class="grid md:grid-cols-12 grid-cols-1 gap-3 m-5">
-  <div class="col-span-4">
+  <div class="col-span-2">
     <div class="mb-4">
       <p class="text-2xl mb-3">Select Schema</p>
       <mx-select
@@ -10,21 +10,32 @@
       />
     </div>
     <p class="text-2xl mb-3">Fields</p>
-    <div class="flex flex-col gap-3" cdkDropList (cdkDropListDropped)="drop($event)" >
+    <div
+      class="flex flex-col gap-3"
+      cdkDropList
+      (cdkDropListDropped)="drop($event)"
+    >
       @for (item of formList(); track item?.config?.label) {
         <div mxCard cdkDrag>
           <div mxCardContent class="flex items-center p-2 justify-between">
-            <p [class]="item.config?.removed ? 'text-red-600' : ''">{{ item.config?.label }}</p>
+            <p [class]="item.config?.removed ? 'text-red-600' : ''">
+              {{ item.config?.label }}
+            </p>
             <div class="flex gap-2">
-              <input-config [fieldConfig]="item" (configChange)="handleFormChange($event)"   />
+              <input-config
+                [fieldConfig]="item"
+                (configChange)="handleFormChange($event)"
+              />
               @if (!item?.config?.removed) {
-                <mx-overlay containerClass="p-3" >
-                  <mx-button trigger variant="secondary"><mx-icon icon="plus" /></mx-button>
+                <mx-overlay containerClass="p-3">
+                  <mx-button trigger variant="secondary"
+                    ><mx-icon icon="plus"
+                  /></mx-button>
                   @for (field of computedFormList(); track field.id) {
-                  <div class="flex gap-2 items-center">
-                    <input type="checkbox" [id]="field.id">
-                    <label [for]="field.id">{{field.config?.label}}</label>
-                  </div>
+                    <div class="flex gap-2 items-center">
+                      <input type="checkbox" [id]="field.id" />
+                      <label [for]="field.id">{{ field.config?.label }}</label>
+                    </div>
                   }
                 </mx-overlay>
               }
@@ -34,10 +45,15 @@
       }
     </div>
     <div class="mt-3">
-      <mx-button (handleClick)="handleSave()" >Save</mx-button>
+      <mx-button (handleClick)="handleSave()">Save</mx-button>
+    </div>
+    <div class="mt-3">
+      <mx-button (handleClick)="handleSaveAndGenerate()"
+        >Save & generate</mx-button
+      >
     </div>
   </div>
-  <div class="col-span-8">
-    <preview-form [previewFormList]="computedFormList()" />
+  <div class="col-span-10">
+    <preview-form [previewFormList]="formList()" [schemaName]="schemaSelectControl.value" />
   </div>
 </div>

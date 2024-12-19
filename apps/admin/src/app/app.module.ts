@@ -30,6 +30,12 @@ import { MxMiniCounterComponent } from './shared/ui/form/mini-counter';
 import { InputConfigComponent } from './components/input-config';
 import { DragDropModule } from '@angular/cdk/drag-drop';
 import { PreviewFormComponent } from './components/preview-form';
+import { MxDataGridModule } from './shared/ui/mx-data-grid/data-grid.module';
+import { GridColumnsComponent } from './shared/ui/mx-data-grid/components/base-table/columns';
+import { MxActionComponent } from './shared/ui/mx-data-grid/components/base-table/action';
+import { MxGridToolbarComponent } from './shared/ui/mx-data-grid/components/toolbar/mx-toolbar';
+import { MxFilterPillsComponent } from './shared/grid-shell/filters/components/filter-pills';
+import { MxGridShellComponent } from './shared/grid-shell/grid-shell';
 
 @NgModule({
   declarations: [
@@ -64,6 +70,9 @@ import { PreviewFormComponent } from './components/preview-form';
     MxMiniCounterComponent,
     MxSelectComponent,
     DragDropModule,
+    GridColumnsComponent,
+    MxActionComponent,
+    MxDataGridModule,
   ],
   providers: [
     HttpClient,

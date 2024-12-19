@@ -31,12 +31,9 @@ export class ApiService {
     return `${environment.api}${endpoint}`;
   }
 
-  get<T>(
-    endpoint: string,
-    queryParams?: QueryParams,
-  ): Observable<MxResponse<T>> {
+  get<T>(endpoint: string, queryParams?: QueryParams): Observable<any> {
     return this._http
-      .get<MxResponse<T>>(this.makeURL(endpoint), {
+      .get<any>(this.makeURL(endpoint), {
         params: queryParams,
       })
       .pipe(catchError(this.handleError));

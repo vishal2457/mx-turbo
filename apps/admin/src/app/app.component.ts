@@ -1,12 +1,11 @@
+import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
 import { Component, computed, inject, signal } from '@angular/core';
-import { SocketService } from './shared/services/socket.service';
-import { ApiService } from './shared/services/api.service';
 import { FormControl } from '@angular/forms';
 import { INPUT_LIST } from './shared/_internal/constants';
+import { getInputIds } from './shared/_internal/utils';
+import { ApiService } from './shared/services/api.service';
 import { DynamicForm } from './shared/types/form.type';
 import { SubSink } from './shared/utils/sub-sink';
-import { getInputIds } from './shared/_internal/utils';
-import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
 
 @Component({
   selector: 'app-root',
@@ -26,6 +25,7 @@ export class AppComponent {
   });
 
   schemaList: any[] = [];
+  existingData!: Record<string, DynamicForm[]>;
   removedKey: string[] = [];
   selectedSchema: any = {};
   schemaSelectControl = new FormControl();
@@ -35,10 +35,14 @@ export class AppComponent {
 
   ngOnInit(): void {
     this.handleSchemaSelection();
-    this.api.get<any[]>('/get-all-schema').subscribe((data) => {
-      this.schemaList = data.data;
-      this.schemaSelectControl.patchValue(this.schemaList[0]?.name);
-    });
+
+    this.subs.sink = this.api
+      .get<any[]>('/get-all-schema')
+      .subscribe((data) => {
+        this.schemaList = data.data;
+        this.existingData = data.existingData;
+        this.schemaSelectControl.patchValue(this.schemaList[0]?.name);
+      });
   }
 
   ngOnDestroy(): void {
@@ -72,15 +76,36 @@ export class AppComponent {
   }
 
   handleSave() {
-    console.log(this.formList(), 'handle save');
-    this.api.get('/save-all-schema').subscribe((response) => {
-      console.log(response, 'Response');
-    });
+    this.api
+      .post('/save-schema-details', {
+        fieldConfig: this.formList(),
+        name: this.schemaSelectControl.value,
+      })
+      .subscribe((response) => {
+        console.log(response, 'Response');
+      });
+  }
+
+  handleSaveAndGenerate() {
+    this.api
+      .post(`/generate-crud/${this.schemaSelectControl.value}`, {
+        fieldConfig: this.formList(),
+      })
+      .subscribe((response) => {
+        console.log(response, 'Response');
+      });
   }
 
   private handleSchemaSelection() {
     this.subs.sink = this.schemaSelectControl.valueChanges.subscribe(
       (value: string) => {
+        const existingData = this.existingData[value];
+
+        if (existingData?.length) {
+          this.formList.update(() => [...existingData]);
+          return;
+        }
+
         const selectedSchema = this.schemaList.find(
           (schema) => schema.name === value,
         );
@@ -99,10 +124,13 @@ export class AppComponent {
               inputType: inputID,
               removed: false,
               placeholder: `Enter ${key}`,
+              addInTable: true,
+              addinTableFilter: true,
             },
           });
         }
-        this.formList.set([...array]);
+
+        this.formList.update(() => [...array]);
       },
     );
   }

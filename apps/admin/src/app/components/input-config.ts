@@ -18,36 +18,45 @@ import { SubSink } from '../shared/utils/sub-sink';
     <mx-button variant="secondary" trigger>
       <mx-icon icon="edit" />
     </mx-button>
-    <div class="p-3 flex flex-col gap-3">
-      <mx-input
-        [control]="configForm.controls['label']"
-        label="Label"
-        placeholder="Enter Label"
-      />
-      <mx-input
-        [control]="configForm.controls['placeholder']"
-        label="Placeholder"
-        placeholder="Enter placeholder"
-      />
-      <mx-checkbox label="Remove" [control]="configForm.controls['removed']" />
-      <mx-checkbox
-        label="Required Field"
-        [control]="configForm.controls['required']"
-      />
-    </div>
-    <div class="flex flex-col gap-2">
-      @for (field of inputList; track field.name) {
-        <mx-badge
-          class="cursor-pointer"
-          [text]="field.name"
-          (click)="handleInputChange(field.id)"
-          [variant]="
-            field.id === fieldConfig()?.config?.inputType
-              ? 'success'
-              : 'default'
-          "
+    <div class="p-3">
+      <p class="mb-3 text-xl">Form Config</p>
+      <div class=" flex flex-col gap-3">
+        <mx-checkbox label="Remove" [control]="configForm.controls.removed" />
+
+        <mx-checkbox
+          label="Required Field"
+          [control]="configForm.controls['required']"
         />
-      }
+        <mx-select
+          [control]="configForm.controls.inputType"
+          [items]="inputList"
+          bindLabel="name"
+          bindValue="id"
+          label="Input Type"
+          [requiredAstrick]="true"
+        />
+        <mx-input
+          [control]="configForm.controls['label']"
+          label="Label"
+          placeholder="Enter Label"
+        />
+        <mx-input
+          [control]="configForm.controls['placeholder']"
+          label="Placeholder"
+          placeholder="Enter placeholder"
+        />
+      </div>
+      <p class="mt-5 mb-3 text-xl">Datagrid Config</p>
+      <div class=" flex flex-col gap-3">
+        <mx-checkbox
+          label="Add In Table"
+          [control]="configForm.controls.addInTable"
+        />
+        <mx-checkbox
+          label="Add In Table Filter"
+          [control]="configForm.controls.addinTableFilter"
+        />
+      </div>
     </div>
   </mx-overlay>`,
 })
@@ -67,6 +76,8 @@ export class InputConfigComponent implements OnInit, OnDestroy {
     removed: [false],
     required: [false],
     inputType: [INPUT_IDS.INPUT],
+    addInTable: [false],
+    addinTableFilter: [false],
   });
 
   ngOnInit(): void {
@@ -79,6 +90,8 @@ export class InputConfigComponent implements OnInit, OnDestroy {
       placeholder: field?.config?.placeholder,
       inputType: field?.config?.inputType,
       required: field?.config?.required,
+      addInTable: field?.config?.addInTable,
+      addinTableFilter: field?.config?.addinTableFilter,
     });
 
     this.subs.sink = this.configForm.valueChanges.subscribe((value) =>

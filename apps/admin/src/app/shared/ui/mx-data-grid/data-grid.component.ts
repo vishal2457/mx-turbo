@@ -73,6 +73,10 @@ export class MxDataGridComponent
 
   ngAfterContentInit(): void {
     this.updateColumns(this.columns);
+    const observeColumnChange = this.columns.changes;
+    this.subs.sink = observeColumnChange.subscribe((newColumns) => {
+      this.updateColumns(newColumns);
+    });
     if (this.actions) {
       this.subs.sink = this.actions.changes.subscribe((actions) => {
         this.actionService.updateActions(actions);

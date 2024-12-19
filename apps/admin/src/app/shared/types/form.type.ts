@@ -10,5 +10,7 @@ export interface DynamicForm {
     inputType: INPUT_IDS;
     removed: boolean;
     placeholder?: string;
+    addInTable: boolean;
+    addinTableFilter: boolean;
   };
 }
