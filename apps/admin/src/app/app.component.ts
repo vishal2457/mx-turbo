@@ -6,6 +6,7 @@ import { INPUT_LIST } from './shared/_internal/constants';
 import { DynamicForm } from './shared/types/form.type';
 import { SubSink } from './shared/utils/sub-sink';
 import { getInputIds } from './shared/_internal/utils';
+import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
 
 @Component({
   selector: 'app-root',
@@ -63,6 +64,17 @@ export class AppComponent {
       const fieldIndex = existingForm.findIndex((i) => i.id === id);
       existingForm[fieldIndex].config = { ...rest };
       return [...existingForm];
+    });
+  }
+
+  drop(event: CdkDragDrop<string[]>) {
+    moveItemInArray(this.formList(), event.previousIndex, event.currentIndex);
+  }
+
+  handleSave() {
+    console.log(this.formList(), 'handle save');
+    this.api.get('/save-all-schema').subscribe((response) => {
+      console.log(response, 'Response');
     });
   }
 

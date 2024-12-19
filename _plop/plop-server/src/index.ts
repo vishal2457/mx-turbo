@@ -1,5 +1,6 @@
 import express from "express";
 import { lstatSync, readdirSync } from "node:fs";
+import { writeFile } from "node:fs/promises";
 import path from "node:path";
 import { is, Table, getTableName } from "drizzle-orm";
 import { createSelectSchema } from "drizzle-zod";
@@ -11,6 +12,15 @@ const basePath = path.join(__dirname, "../../../packages/mx-schema/src/lib");
 const app = express();
 
 app.use(cors());
+
+async function writeJson(data: any) {
+  try {
+    await writeFile("./data.json", JSON.stringify(data, null, 2), "utf8");
+    console.log("File has been saved.");
+  } catch (err) {
+    console.error("Error writing the file:", err);
+  }
+}
 
 const files = readdirSync(basePath, { recursive: true });
 
@@ -37,6 +47,11 @@ app.get("/get-all-schema", (req, res) => {
     }
   }
   res.json({ data: results });
+});
+
+app.post("/save-schema-details", async (req, res) => {
+  // console.log(req.body);
+  await writeJson(req.body);
 });
 
 app.listen(3000, () => {

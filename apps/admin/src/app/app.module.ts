@@ -28,9 +28,16 @@ import { MxTextareaComponent } from './shared/ui/form/textarea';
 import { MxFileUploadComponent } from './shared/ui/form/mx-file-upload';
 import { MxMiniCounterComponent } from './shared/ui/form/mini-counter';
 import { InputConfigComponent } from './components/input-config';
+import { DragDropModule } from '@angular/cdk/drag-drop';
+import { PreviewFormComponent } from './components/preview-form';
 
 @NgModule({
-  declarations: [AppComponent, DynamicInputComponent, InputConfigComponent],
+  declarations: [
+    AppComponent,
+    DynamicInputComponent,
+    InputConfigComponent,
+    PreviewFormComponent,
+  ],
   imports: [
     BrowserModule,
     BrowserAnimationsModule,
@@ -56,6 +63,7 @@ import { InputConfigComponent } from './components/input-config';
     MxFileUploadComponent,
     MxMiniCounterComponent,
     MxSelectComponent,
+    DragDropModule,
   ],
   providers: [
     HttpClient,

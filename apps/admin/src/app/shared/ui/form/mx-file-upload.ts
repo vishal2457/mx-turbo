@@ -32,7 +32,7 @@ import { MxTooltipDirective } from '../tooltip/tooltip.directive';
     MxTooltipDirective,
   ],
   template: `
-    <div class="w-full max-w-md bg-background border  rounded-lg p-6 relative">
+    <div class="w-full max-w-md bg-background border  rounded-lg p-3 relative">
       <div class="flex items-center justify-between">
         <div class="flex-1">
           <h3 class=" text-md font-bold">
