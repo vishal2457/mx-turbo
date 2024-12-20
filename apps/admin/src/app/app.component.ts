@@ -1,6 +1,6 @@
 import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
 import { Component, computed, inject, signal } from '@angular/core';
-import { FormControl } from '@angular/forms';
+import { FormBuilder, FormControl } from '@angular/forms';
 import { INPUT_LIST } from './shared/_internal/constants';
 import { getInputIds } from './shared/_internal/utils';
 import { ApiService } from './shared/services/api.service';
@@ -15,21 +15,27 @@ import { SubSink } from './shared/utils/sub-sink';
 export class AppComponent {
   title = 'Maximus';
   private api = inject(ApiService);
+  private fb = inject(FormBuilder);
 
   inputList = INPUT_LIST;
   formList = signal<DynamicForm[]>([]);
   computedFormList = computed(() => {
     const existingForm = this.formList();
-
     return existingForm.filter((i) => !i.config?.removed);
   });
 
   schemaList: any[] = [];
-  existingData!: Record<string, DynamicForm[]>;
+  existingData!: Record<
+    string,
+    { config: DynamicForm[]; datagridTitle: string }
+  >;
   removedKey: string[] = [];
   selectedSchema: any = {};
   schemaSelectControl = new FormControl();
   checkControl = new FormControl(true);
+  pageSettings = this.fb.group({
+    datagridTitle: [''],
+  });
 
   private subs = new SubSink();
 
@@ -80,9 +86,10 @@ export class AppComponent {
       .post('/save-schema-details', {
         fieldConfig: this.formList(),
         name: this.schemaSelectControl.value,
+        datagridTitle: this.pageSettings.value.datagridTitle,
       })
       .subscribe((response) => {
-        console.log(response, 'Response');
+        alert('Saved');
       });
   }
 
@@ -99,10 +106,15 @@ export class AppComponent {
   private handleSchemaSelection() {
     this.subs.sink = this.schemaSelectControl.valueChanges.subscribe(
       (value: string) => {
-        const existingData = this.existingData[value];
+        const { config, datagridTitle } = this.existingData[value] || {};
+        console.log(datagridTitle, 'check me');
 
-        if (existingData?.length) {
-          this.formList.update(() => [...existingData]);
+        this.pageSettings.patchValue({
+          datagridTitle: datagridTitle || `${value} List`,
+        });
+
+        if (config?.length) {
+          this.formList.update(() => [...config]);
           return;
         }
 
@@ -126,6 +138,7 @@ export class AppComponent {
               placeholder: `Enter ${key}`,
               addInTable: true,
               addinTableFilter: true,
+              columnTitle: key,
             },
           });
         }

@@ -27,7 +27,7 @@
         @if (!column.head) {
         <mx-dropdown spacing="compact">
           <mx-button trigger variant="ghost" class="items-center">
-            <span class="flex items-center gap-1 capitalize tracking-normal">
+            <span class="flex items-center gap-1 tracking-normal">
               {{ column.title || column.field }} @if (columnService.sort$
               |async; as sort) {
               <mx-icon

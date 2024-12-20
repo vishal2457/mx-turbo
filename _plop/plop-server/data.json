@@ -1,88 +1,141 @@
 {
-  "notifications": [
-    {
-      "rowIndex": 0,
-      "columnIndex": 0,
-      "id": "id",
-      "config": {
-        "label": "id",
-        "placeholder": "Enter id",
-        "removed": true,
-        "required": true,
-        "inputType": "input-number",
-        "addInTable": true,
-        "addinTableFilter": false
+  "notifications": {
+    "config": [
+      {
+        "rowIndex": 0,
+        "columnIndex": 0,
+        "id": "id",
+        "config": {
+          "label": "id",
+          "placeholder": "Enter id",
+          "removed": true,
+          "required": true,
+          "inputType": "input-number",
+          "addInTable": false,
+          "addinTableFilter": false
+        }
+      },
+      {
+        "rowIndex": 1,
+        "columnIndex": 0,
+        "id": "title",
+        "config": {
+          "label": "Title",
+          "placeholder": "Enter title",
+          "removed": false,
+          "required": true,
+          "inputType": "input",
+          "addInTable": true,
+          "addinTableFilter": true,
+          "columnTitle": "Title"
+        }
+      },
+      {
+        "rowIndex": 2,
+        "columnIndex": 0,
+        "id": "body",
+        "config": {
+          "label": "Body",
+          "placeholder": "Enter body",
+          "removed": false,
+          "required": true,
+          "inputType": "textarea",
+          "addInTable": false,
+          "addinTableFilter": false
+        }
+      },
+      {
+        "rowIndex": 3,
+        "columnIndex": 0,
+        "id": "image",
+        "config": {
+          "label": "Image",
+          "placeholder": "Enter image",
+          "removed": false,
+          "required": true,
+          "inputType": "file-upload",
+          "addInTable": false,
+          "addinTableFilter": false
+        }
+      },
+      {
+        "rowIndex": 4,
+        "columnIndex": 0,
+        "id": "createdAt",
+        "config": {
+          "label": "createdAt",
+          "placeholder": "Enter createdAt",
+          "removed": true,
+          "required": true,
+          "inputType": "date-picker",
+          "addInTable": true,
+          "addinTableFilter": false,
+          "columnTitle": "Created"
+        }
+      },
+      {
+        "rowIndex": 5,
+        "columnIndex": 0,
+        "id": "udpatedAt",
+        "config": {
+          "label": "udpatedAt",
+          "placeholder": "Enter udpatedAt",
+          "removed": true,
+          "required": true,
+          "inputType": "date-picker",
+          "addInTable": true,
+          "addinTableFilter": true,
+          "columnTitle": "Updated"
+        }
       }
-    },
-    {
-      "rowIndex": 1,
-      "columnIndex": 0,
-      "id": "title",
-      "config": {
-        "label": "Title",
-        "placeholder": "Enter title",
-        "removed": false,
-        "required": true,
-        "inputType": "input",
-        "addInTable": true,
-        "addinTableFilter": true
+    ],
+    "datagridTitle": "Notifications List"
+  },
+  "role": {
+    "config": [
+      {
+        "rowIndex": 0,
+        "columnIndex": 0,
+        "id": "id",
+        "config": {
+          "label": "id",
+          "placeholder": "Enter id",
+          "removed": true,
+          "required": true,
+          "inputType": "input-number",
+          "addInTable": true,
+          "addinTableFilter": false
+        }
+      },
+      {
+        "rowIndex": 1,
+        "columnIndex": 0,
+        "id": "name",
+        "config": {
+          "label": "name",
+          "required": true,
+          "inputType": "input",
+          "removed": false,
+          "placeholder": "Enter name",
+          "addInTable": true,
+          "addinTableFilter": true
+        }
+      },
+      {
+        "rowIndex": 2,
+        "columnIndex": 0,
+        "id": "description",
+        "config": {
+          "label": "Description",
+          "placeholder": "Enter description",
+          "removed": false,
+          "required": true,
+          "inputType": "textarea",
+          "addInTable": false,
+          "addinTableFilter": true
+        }
       }
-    },
-    {
-      "rowIndex": 2,
-      "columnIndex": 0,
-      "id": "body",
-      "config": {
-        "label": "Body",
-        "placeholder": "Enter body",
-        "removed": false,
-        "required": true,
-        "inputType": "textarea",
-        "addInTable": false,
-        "addinTableFilter": false
-      }
-    },
-    {
-      "rowIndex": 3,
-      "columnIndex": 0,
-      "id": "image",
-      "config": {
-        "label": "Image",
-        "placeholder": "Add Image",
-        "removed": false,
-        "required": true,
-        "inputType": "file-upload",
-        "addInTable": false,
-        "addinTableFilter": false
-      }
-    },
-    {
-      "rowIndex": 4,
-      "columnIndex": 0,
-      "id": "createdAt",
-      "config": {
-        "label": "createdAt",
-        "placeholder": "Enter createdAt",
-        "removed": true,
-        "required": true,
-        "inputType": "date-picker",
-        "addInTable": false,
-        "addinTableFilter": false
-      }
-    },
-    {
-      "rowIndex": 5,
-      "columnIndex": 0,
-      "id": "udpatedAt",
-      "config": {
-        "label": "udpatedAt",
-        "placeholder": "Enter udpatedAt",
-        "removed": true,
-        "required": true,
-        "inputType": "date-picker",
-        "addInTable": false,
-        "addinTableFilter": false
-      }
-    }
-  ]
+    ],
+    "datagridTitle": "Role List"
+  }
 }

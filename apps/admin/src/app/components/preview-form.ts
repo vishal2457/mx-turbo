@@ -25,12 +25,15 @@ import { DynamicForm } from '../shared/types/form.type';
         </div>
       } @else if (previewControl.value === 'Datagrid') {
         <mx-data-grid
-          [gridTitle]="schemaName() + ' list'"
+          [gridTitle]="datagridTitle()"
           [collectionSize]="8"
           [data]="dummyData()"
         >
           @for (item of computedDatagridColumns(); track item?.config?.label) {
-            <mx-column [field]="item.id" [title]="item.config?.label || ''" />
+            <mx-column
+              [field]="item.id"
+              [title]="item.config?.columnTitle || ''"
+            />
           }
         </mx-data-grid>
       }
@@ -39,7 +42,8 @@ import { DynamicForm } from '../shared/types/form.type';
 })
 export class PreviewFormComponent {
   previewFormList = input.required<DynamicForm[]>();
-  schemaName = input.required<string>();
+  datagridTitle = input.required<string>();
+
   computedFormList = computed(() => {
     const existingForm = this.previewFormList();
     return existingForm.filter((i) => !i.config?.removed);

@@ -7,7 +7,7 @@ import {
   OnInit,
   output,
 } from '@angular/core';
-import { FormBuilder, FormGroup } from '@angular/forms';
+import { FormBuilder } from '@angular/forms';
 import { INPUT_IDS, INPUT_LIST } from '../shared/_internal/constants';
 import { DynamicForm } from '../shared/types/form.type';
 import { SubSink } from '../shared/utils/sub-sink';
@@ -56,6 +56,11 @@ import { SubSink } from '../shared/utils/sub-sink';
           label="Add In Table Filter"
           [control]="configForm.controls.addinTableFilter"
         />
+        <mx-input
+          [control]="configForm.controls.columnTitle"
+          label="Column Title"
+          placeholder="Enter column title"
+        />
       </div>
     </div>
   </mx-overlay>`,
@@ -78,6 +83,7 @@ export class InputConfigComponent implements OnInit, OnDestroy {
     inputType: [INPUT_IDS.INPUT],
     addInTable: [false],
     addinTableFilter: [false],
+    columnTitle: [''],
   });
 
   ngOnInit(): void {
@@ -92,6 +98,7 @@ export class InputConfigComponent implements OnInit, OnDestroy {
       required: field?.config?.required,
       addInTable: field?.config?.addInTable,
       addinTableFilter: field?.config?.addinTableFilter,
+      columnTitle: field?.config?.columnTitle,
     });
 
     this.subs.sink = this.configForm.valueChanges.subscribe((value) =>

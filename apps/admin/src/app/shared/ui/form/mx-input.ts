@@ -24,7 +24,7 @@ import { MxFormErrorComponent } from './form-error';
     @if (label) {
       <label
         [for]="_id"
-        class="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70 ml-1 capitalize"
+        class="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70 ml-1"
       >
         {{ label }}
         @if (requiredAstrick()) {
