@@ -1,6 +1,6 @@
 import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
 import { Component, computed, inject, signal } from '@angular/core';
-import { FormControl } from '@angular/forms';
+import { FormBuilder, FormControl } from '@angular/forms';
 import { INPUT_LIST } from './shared/_internal/constants';
 import { getInputIds } from './shared/_internal/utils';
 import { ApiService } from './shared/services/api.service';
@@ -15,17 +15,23 @@ import { SubSink } from './shared/utils/sub-sink';
 export class AppComponent {
   title = 'Maximus';
   private api = inject(ApiService);
+  private fb = inject(FormBuilder);
 
   inputList = INPUT_LIST;
   formList = signal<DynamicForm[]>([]);
   computedFormList = computed(() => {
     const existingForm = this.formList();
-
     return existingForm.filter((i) => !i.config?.removed);
   });
 
   schemaList: any[] = [];
-  existingData!: Record<string, DynamicForm[]>;
+  pageSettings = this.fb.group({
+    datagridTitle: [''],
+    pageHeader: [''],
+    pageDescription: [''],
+    addButtonText: ['Add'],
+  });
+  existingData!: Record<string, { config: DynamicForm[]; pageSettings: any }>;
   removedKey: string[] = [];
   selectedSchema: any = {};
   schemaSelectControl = new FormControl();
@@ -80,9 +86,10 @@ export class AppComponent {
       .post('/save-schema-details', {
         fieldConfig: this.formList(),
         name: this.schemaSelectControl.value,
+        pageSettings: this.pageSettings.value,
       })
       .subscribe((response) => {
-        console.log(response, 'Response');
+        alert('Saved');
       });
   }
 
@@ -99,10 +106,15 @@ export class AppComponent {
   private handleSchemaSelection() {
     this.subs.sink = this.schemaSelectControl.valueChanges.subscribe(
       (value: string) => {
-        const existingData = this.existingData[value];
+        const { config, pageSettings } = this.existingData[value] || {};
+        if (pageSettings) {
+          this.pageSettings.patchValue(pageSettings);
+        } else {
+          this.pageSettings.reset();
+        }
 
-        if (existingData?.length) {
-          this.formList.update(() => [...existingData]);
+        if (config?.length) {
+          this.formList.update(() => [...config]);
           return;
         }
 
@@ -126,6 +138,9 @@ export class AppComponent {
               placeholder: `Enter ${key}`,
               addInTable: true,
               addinTableFilter: true,
+              columnTitle: key,
+              row: 1,
+              col: 1,
             },
           });
         }

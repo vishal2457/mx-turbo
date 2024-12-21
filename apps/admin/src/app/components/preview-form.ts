@@ -5,7 +5,7 @@ import { DynamicForm } from '../shared/types/form.type';
 @Component({
   selector: 'preview-form',
   template: `
-    <div class="bg-neutral-100 p-6 rounded-sm h-[calc(100vh-2.5rem)]">
+    <div class="bg-neutral-100 p-6 rounded-sm min-h-[calc(100vh-2.5rem)]">
       <mx-select
         class="block w-1/3 mb-10"
         [control]="previewControl"
@@ -24,13 +24,28 @@ import { DynamicForm } from '../shared/types/form.type';
           }
         </div>
       } @else if (previewControl.value === 'Datagrid') {
+        @let pageSettingsValue = pageSettings();
+        <page-header
+          [header]="pageSettingsValue.pageHeader"
+          [description]="pageSettingsValue.pageDescription"
+          [showCancel]="false"
+        >
+          <mx-button>
+            <span class="flex items-center">
+              <p>{{ pageSettingsValue.addButtonText }}</p>
+            </span>
+          </mx-button>
+        </page-header>
         <mx-data-grid
-          [gridTitle]="schemaName() + ' list'"
+          [gridTitle]="pageSettingsValue.datagridTitle"
           [collectionSize]="8"
           [data]="dummyData()"
         >
           @for (item of computedDatagridColumns(); track item?.config?.label) {
-            <mx-column [field]="item.id" [title]="item.config?.label || ''" />
+            <mx-column
+              [field]="item.id"
+              [title]="item.config?.columnTitle || ''"
+            />
           }
         </mx-data-grid>
       }
@@ -39,7 +54,8 @@ import { DynamicForm } from '../shared/types/form.type';
 })
 export class PreviewFormComponent {
   previewFormList = input.required<DynamicForm[]>();
-  schemaName = input.required<string>();
+  pageSettings = input.required<any>();
+
   computedFormList = computed(() => {
     const existingForm = this.previewFormList();
     return existingForm.filter((i) => !i.config?.removed);

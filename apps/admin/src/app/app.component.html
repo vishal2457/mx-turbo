@@ -9,16 +9,16 @@
         bindValue="name"
       />
     </div>
-    <p class="text-2xl mb-3">Fields</p>
+    <p class="text-xl mb-3">Fields</p>
     <div
-      class="flex flex-col gap-3"
+      class="flex flex-col gap-2"
       cdkDropList
       (cdkDropListDropped)="drop($event)"
     >
       @for (item of formList(); track item?.config?.label) {
         <div mxCard cdkDrag>
-          <div mxCardContent class="flex items-center p-2 justify-between">
-            <p [class]="item.config?.removed ? 'text-red-600' : ''">
+          <div mxCardContent class="flex items-center p-1 pl-3 justify-between">
+            <p [class]="item.config?.removed ? 'text-red-600' : ''" class="text-sm">
               {{ item.config?.label }}
             </p>
             <div class="flex gap-2">
@@ -26,23 +26,34 @@
                 [fieldConfig]="item"
                 (configChange)="handleFormChange($event)"
               />
-              @if (!item?.config?.removed) {
-                <mx-overlay containerClass="p-3">
-                  <mx-button trigger variant="secondary"
-                    ><mx-icon icon="plus"
-                  /></mx-button>
-                  @for (field of computedFormList(); track field.id) {
-                    <div class="flex gap-2 items-center">
-                      <input type="checkbox" [id]="field.id" />
-                      <label [for]="field.id">{{ field.config?.label }}</label>
-                    </div>
-                  }
-                </mx-overlay>
-              }
+
             </div>
           </div>
         </div>
       }
+    </div>
+    <div class="my-5 flex flex-col gap-2">
+      <p class="text-xl">Page Settings</p>
+      <mx-input
+        label="Datagrid Title"
+        [control]="pageSettings.controls.datagridTitle"
+        placeholder="Enter datagrid title"
+      />
+      <mx-input
+        label="Page Header"
+        [control]="pageSettings.controls.pageHeader"
+        placeholder="Enter page header"
+      />
+      <mx-input
+      label="Add Button text"
+      [control]="pageSettings.controls.addButtonText"
+      placeholder="Enter add button text"
+    />
+      <mx-textarea
+        label="Page Description"
+        [control]="pageSettings.controls.pageDescription"
+        placeholder="Enter page description"
+      />
     </div>
     <div class="mt-3">
       <mx-button (handleClick)="handleSave()">Save</mx-button>
@@ -54,6 +65,9 @@
     </div>
   </div>
   <div class="col-span-10">
-    <preview-form [previewFormList]="formList()" [schemaName]="schemaSelectControl.value" />
+    <preview-form
+      [previewFormList]="formList()"
+      [pageSettings]="pageSettings.value"
+    />
   </div>
 </div>

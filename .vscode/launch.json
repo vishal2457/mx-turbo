@@ -1,0 +1,24 @@
+{
+  "configurations": [
+    {
+      "type": "node-terminal",
+      "request": "launch",
+      "name": "Plop:dev",
+      "command": "npm run dev",
+      "cwd": "${workspaceFolder}/_plop/plop-server"
+    },
+    {
+      "type": "node-terminal",
+      "request": "launch",
+      "name": "ng:dev",
+      "command": "pnpm dev-ng",
+      "cwd": "${workspaceFolder}"
+    }
+  ],
+  "compounds": [
+    {
+      "name": "run:all",
+      "configurations": ["ng:dev", "Plop:dev"]
+    }
+  ]
+}

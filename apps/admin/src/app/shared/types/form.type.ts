@@ -12,5 +12,8 @@ export interface DynamicForm {
     placeholder?: string;
     addInTable: boolean;
     addinTableFilter: boolean;
+    columnTitle: string;
+    row: number;
+    col: number;
   };
 }

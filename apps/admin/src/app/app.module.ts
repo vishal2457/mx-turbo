@@ -36,6 +36,7 @@ import { MxActionComponent } from './shared/ui/mx-data-grid/components/base-tabl
 import { MxGridToolbarComponent } from './shared/ui/mx-data-grid/components/toolbar/mx-toolbar';
 import { MxFilterPillsComponent } from './shared/grid-shell/filters/components/filter-pills';
 import { MxGridShellComponent } from './shared/grid-shell/grid-shell';
+import { PageHeaderComponent } from './shared/misc/page-header/page-header.component';
 
 @NgModule({
   declarations: [
@@ -73,6 +74,7 @@ import { MxGridShellComponent } from './shared/grid-shell/grid-shell';
     GridColumnsComponent,
     MxActionComponent,
     MxDataGridModule,
+    PageHeaderComponent,
   ],
   providers: [
     HttpClient,

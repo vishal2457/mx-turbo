@@ -7,7 +7,7 @@ import {
   OnInit,
   output,
 } from '@angular/core';
-import { FormBuilder, FormGroup } from '@angular/forms';
+import { FormBuilder } from '@angular/forms';
 import { INPUT_IDS, INPUT_LIST } from '../shared/_internal/constants';
 import { DynamicForm } from '../shared/types/form.type';
 import { SubSink } from '../shared/utils/sub-sink';
@@ -22,7 +22,6 @@ import { SubSink } from '../shared/utils/sub-sink';
       <p class="mb-3 text-xl">Form Config</p>
       <div class=" flex flex-col gap-3">
         <mx-checkbox label="Remove" [control]="configForm.controls.removed" />
-
         <mx-checkbox
           label="Required Field"
           [control]="configForm.controls['required']"
@@ -45,6 +44,20 @@ import { SubSink } from '../shared/utils/sub-sink';
           label="Placeholder"
           placeholder="Enter placeholder"
         />
+        <div class="flex gap-2">
+          <mx-input
+            label="Row"
+            [control]="configForm.controls.row"
+            placeholder="Enter row"
+            [type]="'number'"
+          />
+          <mx-input
+            label="Col"
+            [control]="configForm.controls.col"
+            placeholder="Enter col"
+            [type]="'number'"
+          />
+        </div>
       </div>
       <p class="mt-5 mb-3 text-xl">Datagrid Config</p>
       <div class=" flex flex-col gap-3">
@@ -55,6 +68,11 @@ import { SubSink } from '../shared/utils/sub-sink';
         <mx-checkbox
           label="Add In Table Filter"
           [control]="configForm.controls.addinTableFilter"
+        />
+        <mx-input
+          [control]="configForm.controls.columnTitle"
+          label="Column Title"
+          placeholder="Enter column title"
         />
       </div>
     </div>
@@ -78,6 +96,9 @@ export class InputConfigComponent implements OnInit, OnDestroy {
     inputType: [INPUT_IDS.INPUT],
     addInTable: [false],
     addinTableFilter: [false],
+    columnTitle: [''],
+    row: [1],
+    col: [1],
   });
 
   ngOnInit(): void {
@@ -92,6 +113,9 @@ export class InputConfigComponent implements OnInit, OnDestroy {
       required: field?.config?.required,
       addInTable: field?.config?.addInTable,
       addinTableFilter: field?.config?.addinTableFilter,
+      columnTitle: field?.config?.columnTitle,
+      row: field?.config?.row,
+      col: field?.config?.col,
     });
 
     this.subs.sink = this.configForm.valueChanges.subscribe((value) =>

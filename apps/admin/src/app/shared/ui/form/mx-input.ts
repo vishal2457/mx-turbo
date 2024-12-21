@@ -24,7 +24,7 @@ import { MxFormErrorComponent } from './form-error';
     @if (label) {
       <label
         [for]="_id"
-        class="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70 ml-1 capitalize"
+        class="text-muted-foreground  text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70 ml-1"
       >
         {{ label }}
         @if (requiredAstrick()) {
@@ -39,7 +39,7 @@ import { MxFormErrorComponent } from './form-error';
         </span>
       }
       <input
-        class="dark:[color-scheme:dark] flex h-9 w-full rounded-md border border-input bg-background px-3 py-1 text-sm shadow-sm transition-colors file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:cursor-not-allowed disabled:opacity-50"
+        class="dark:[color-scheme:dark] flex h-7 w-full rounded-md border border-input bg-background px-3 py-1 text-sm shadow-sm transition-colors file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:cursor-not-allowed disabled:opacity-50"
         autocomplete="off"
         [id]="_id"
         [ngClass]="_inputClass()"

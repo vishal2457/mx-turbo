@@ -70,7 +70,12 @@ app.get("/get-all-schema", async (req, res) => {
 });
 
 app.post("/save-schema-details", async (req, res) => {
-  await writeJson({ [req.body?.name]: req.body.fieldConfig });
+  await writeJson({
+    [req.body?.name]: {
+      config: req.body.fieldConfig,
+      pageSettings: req.body.pageSettings,
+    },
+  });
   res.json({ message: "Data saved successfully" });
 });
 
