@@ -1,8 +1,6 @@
 import { INPUT_IDS } from '../_internal/constants';
 
 export interface DynamicForm {
-  rowIndex: number;
-  columnIndex: number;
   id: string;
   config?: {
     label: string;
@@ -13,7 +11,8 @@ export interface DynamicForm {
     addInTable: boolean;
     addinTableFilter: boolean;
     columnTitle: string;
-    row: number;
-    col: number;
+    row: number | null;
+    col: number | null;
+    selectItems: string[];
   };
 }

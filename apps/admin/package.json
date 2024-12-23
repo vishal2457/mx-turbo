@@ -22,6 +22,7 @@
     "@ng-select/ng-select": "^13.9.0",
     "@repo/helpers": "workspace:*",
     "@repo/mx-schema": "workspace:*",
+    "change-case": "^5.4.4",
     "class-variance-authority": "^0.7.0",
     "clsx": "^2.1.1",
     "echarts": "^5.5.1",

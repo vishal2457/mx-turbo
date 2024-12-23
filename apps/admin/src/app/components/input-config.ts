@@ -7,7 +7,7 @@ import {
   OnInit,
   output,
 } from '@angular/core';
-import { FormBuilder } from '@angular/forms';
+import { FormBuilder, FormControl } from '@angular/forms';
 import { INPUT_IDS, INPUT_LIST } from '../shared/_internal/constants';
 import { DynamicForm } from '../shared/types/form.type';
 import { SubSink } from '../shared/utils/sub-sink';
@@ -34,8 +34,19 @@ import { SubSink } from '../shared/utils/sub-sink';
           label="Input Type"
           [requiredAstrick]="true"
         />
+        @if (
+          configForm.controls.inputType.value === INPUT_IDS.SELECT ||
+          configForm.controls.inputType.value === INPUT_IDS.MULTI_SELECT
+        ) {
+          <mx-input
+            [control]="configForm.controls.selectItems"
+            label="Select Items"
+            [requiredAstrick]="true"
+            [hints]="['Add comma separated values']"
+          />
+        }
         <mx-input
-          [control]="configForm.controls['label']"
+          [control]="configForm.controls.label"
           label="Label"
           placeholder="Enter Label"
         />
@@ -85,7 +96,7 @@ export class InputConfigComponent implements OnInit, OnDestroy {
   configChange = output<any>();
 
   fieldID!: string | undefined;
-
+  INPUT_IDS = INPUT_IDS;
   private subs = new SubSink();
 
   protected configForm = this.fb.group({
@@ -97,8 +108,9 @@ export class InputConfigComponent implements OnInit, OnDestroy {
     addInTable: [false],
     addinTableFilter: [false],
     columnTitle: [''],
-    row: [1],
-    col: [1],
+    row: new FormControl<number | null>(null),
+    col: new FormControl<number | null>(null),
+    selectItems: [''],
   });
 
   ngOnInit(): void {
@@ -119,7 +131,11 @@ export class InputConfigComponent implements OnInit, OnDestroy {
     });
 
     this.subs.sink = this.configForm.valueChanges.subscribe((value) =>
-      this.configChange.emit({ ...value, id: this.fieldID }),
+      this.configChange.emit({
+        ...value,
+        id: this.fieldID,
+        selectItems: value?.selectItems?.split(',') || [],
+      }),
     );
   }
 

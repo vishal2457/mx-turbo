@@ -1,28 +1,25 @@
 {
   "name": "plop-server",
   "version": "1.0.0",
-  "main": "plop-server.ts",
+  "main": "index.js",
+  "type": "module",
   "scripts": {
-    "start": "node dist/index.js",
-    "build": "tsc",
-    "dev": " nodemon src/index.ts --ignore '*.json'"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "nodemon index.js"
   },
   "author": "",
   "license": "ISC",
   "description": "",
   "dependencies": {
-    "cors": "^2.8.5",
-    "drizzle-zod": "^0.5.1",
-    "express": "^4.21.1",
-    "node-plop": "^0.32.0",
-    "zod": "^3.23.8"
+    "change-case": "^5.4.4",
+    "drizzle-orm": "^0.38.2",
+    "drizzle-zod": "^0.6.0",
+    "jiti": "^2.4.2",
+    "mkdirp": "^3.0.1",
+    "title-case": "^4.3.2",
+    "zod-to-json-schema": "^3.24.1"
   },
   "devDependencies": {
-    "@types/express": "^5.0.0",
-    "@types/node": "^22.8.2",
-    "drizzle-orm": "^0.35.3",
-    "nodemon": "^3.1.7",
-    "ts-node": "^10.9.2",
-    "typescript": "^5.6.3"
+    "nodemon": "^3.1.9"
   }
 }

@@ -2,7 +2,6 @@ import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { FormBaseComponent } from './base-form';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { FormControlPipe } from '../../pipe/form-control';
-import { NgClass, NgFor, NgIf } from '@angular/common';
 import { MxHintComponent } from '../hint';
 import { TextFieldModule } from '@angular/cdk/text-field';
 import { MxFormErrorComponent } from './form-error';

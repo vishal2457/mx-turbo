@@ -95,8 +95,6 @@ export class ApiService {
   }
 
   private handleError = (error: HttpErrorResponse) => {
-    console.log(error);
-
     this.notif.show({
       text:
         this.qualifyError(error.error) ||

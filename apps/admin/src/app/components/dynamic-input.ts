@@ -1,4 +1,4 @@
-import { Component, effect, input, InputSignal } from '@angular/core';
+import { Component, computed, effect, input, InputSignal } from '@angular/core';
 import { FormControl, Validators } from '@angular/forms';
 import { INPUT_IDS } from '../shared/_internal/constants';
 import { DynamicForm } from '../shared/types/form.type';
@@ -61,7 +61,7 @@ import { DynamicForm } from '../shared/types/form.type';
       <mx-select
         [control]="control"
         [label]="field?.config?.label || ''"
-        [items]="['In-progress', 'Completed', 'Paused']"
+        [items]="field?.config?.selectItems || []"
         [placeholder]="field?.config?.placeholder || ''"
         [requiredAstrick]="!!field?.config?.required"
       />
@@ -69,7 +69,7 @@ import { DynamicForm } from '../shared/types/form.type';
       <mx-select
         [control]="control"
         [label]="field?.config?.label || ''"
-        [items]="['In-progress', 'Completed', 'Paused']"
+        [items]="field?.config?.selectItems || []"
         [multiple]="true"
         [requiredAstrick]="!!field?.config?.required"
       />

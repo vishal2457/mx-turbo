@@ -1,5 +1,5 @@
 import { NgOptimizedImage } from '@angular/common';
-import { Component, Input } from '@angular/core';
+import { Component, computed, input } from '@angular/core';
 import { environment } from '../../../environments/environment';
 import { mergetw } from '../utils/tw-merge';
 
@@ -8,11 +8,11 @@ import { mergetw } from '../utils/tw-merge';
   standalone: true,
   imports: [NgOptimizedImage],
   template: `
-    @if (fileURL || filename) {
+    @if (filename() || fileURL()) {
       <img
-        [class]="classNames"
-        [src]="fileURL || assetsURL + '/' + filename"
-        [alt]="alt"
+        [class]="classNames()"
+        [src]="fileURL() || assetsURL + '/' + filename()"
+        [alt]="alt()"
       />
     } @else {
       <div
@@ -34,13 +34,14 @@ import { mergetw } from '../utils/tw-merge';
   `,
 })
 export class MxImageComponent {
-  @Input() filename = '';
-  @Input() fileURL = '';
-  @Input() alt = '';
-  @Input() imageClass = '';
-  get classNames() {
-    return mergetw('h-auto max-w-xs rounded-md', this.imageClass);
-  }
+  filename = input('');
+  fileURL = input('');
+  alt = input('');
+  imageClass = input('');
 
-  assetsURL = environment.assetsURL;
+  classNames = computed(() =>
+    mergetw('h-auto max-w-xs rounded-md', this.imageClass()),
+  );
+
+  readonly assetsURL = environment.assetsURL;
 }

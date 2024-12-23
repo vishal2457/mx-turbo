@@ -6,6 +6,8 @@ import { getInputIds } from './shared/_internal/utils';
 import { ApiService } from './shared/services/api.service';
 import { DynamicForm } from './shared/types/form.type';
 import { SubSink } from './shared/utils/sub-sink';
+import { getTitleCase } from './shared/utils/case.utils';
+import { MxNotification } from './shared/ui/notification/notification.service';
 
 @Component({
   selector: 'app-root',
@@ -16,6 +18,7 @@ export class AppComponent {
   title = 'Maximus';
   private api = inject(ApiService);
   private fb = inject(FormBuilder);
+  private toast = inject(MxNotification);
 
   inputList = INPUT_LIST;
   formList = signal<DynamicForm[]>([]);
@@ -30,6 +33,8 @@ export class AppComponent {
     pageHeader: [''],
     pageDescription: [''],
     addButtonText: ['Add'],
+    formPageTitleAdd: ['Add new'],
+    formPageTitleUpdate: ['Update'],
   });
   existingData!: Record<string, { config: DynamicForm[]; pageSettings: any }>;
   removedKey: string[] = [];
@@ -46,7 +51,7 @@ export class AppComponent {
       .get<any[]>('/get-all-schema')
       .subscribe((data) => {
         this.schemaList = data.data;
-        this.existingData = data.existingData;
+        this.existingData = data.existingData || {};
         this.schemaSelectControl.patchValue(this.schemaList[0]?.name);
       });
   }
@@ -81,26 +86,23 @@ export class AppComponent {
     moveItemInArray(this.formList(), event.previousIndex, event.currentIndex);
   }
 
-  handleSave() {
+  handleSave(generate?: boolean) {
     this.api
-      .post('/save-schema-details', {
-        fieldConfig: this.formList(),
-        name: this.schemaSelectControl.value,
-        pageSettings: this.pageSettings.value,
-      })
+      .post(
+        `/save-schema-details?generate=${generate ? 1 : 0}`,
+        this.getSavePayload(),
+      )
       .subscribe((response) => {
-        alert('Saved');
+        this.toast.show({ text: 'Saved' });
       });
   }
 
-  handleSaveAndGenerate() {
-    this.api
-      .post(`/generate-crud/${this.schemaSelectControl.value}`, {
-        fieldConfig: this.formList(),
-      })
-      .subscribe((response) => {
-        console.log(response, 'Response');
-      });
+  private getSavePayload() {
+    return {
+      fieldConfig: this.formList(),
+      name: this.schemaSelectControl.value,
+      pageSettings: this.pageSettings.value,
+    };
   }
 
   private handleSchemaSelection() {
@@ -110,7 +112,14 @@ export class AppComponent {
         if (pageSettings) {
           this.pageSettings.patchValue(pageSettings);
         } else {
-          this.pageSettings.reset();
+          this.pageSettings.reset({
+            formPageTitleAdd: `Create ${getTitleCase(value)}`,
+            formPageTitleUpdate: `Update ${getTitleCase(value)}`,
+            addButtonText: `Add ${getTitleCase(value)}`,
+            pageHeader: getTitleCase(value),
+            pageDescription: `Manage ${getTitleCase(value)}`,
+            datagridTitle: `List of ${getTitleCase(value)}`,
+          });
         }
 
         if (config?.length) {
@@ -124,23 +133,22 @@ export class AppComponent {
 
         const properties = Object.entries(selectedSchema?.properties);
         const array: DynamicForm[] = [];
-        for (const [index, [key, value]] of properties.entries()) {
+        for (const [_, [key, value]] of properties.entries()) {
           const inputID = getInputIds(value);
           array.push({
-            rowIndex: index,
-            columnIndex: 0,
             id: key,
             config: {
-              label: key,
+              label: getTitleCase(key),
               required: selectedSchema?.required.includes(key),
               inputType: inputID,
               removed: false,
               placeholder: `Enter ${key}`,
               addInTable: true,
               addinTableFilter: true,
-              columnTitle: key,
-              row: 1,
-              col: 1,
+              columnTitle: getTitleCase(key),
+              row: null,
+              col: null,
+              selectItems: ['Value 1', 'Value 2', 'Value 3'],
             },
           });
         }

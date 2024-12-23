@@ -1,0 +1,17 @@
+import { Router } from 'express';
+import { success } from '../../../shared/api-response/response-handler';
+import { validate } from '../../../shared/middlewares/validation.middleware';
+import { {{dbSchema}} } from '@repo/mx-schema';
+import { createInsertSchema } from 'drizzle-zod';
+import { {{name}}Service } from './{{name}}.service';
+
+const validationSchema = createInsertSchema({{dbSchema}});
+
+export default Router().post(
+  '/create',
+  validate({ body: validationSchema }),
+  async (req, res) => {
+    const result = await {{name}}Service.create{{properCase name}}(req.body);
+    success(res, result, 'success');
+  }
+);
